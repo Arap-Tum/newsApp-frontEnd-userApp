@@ -1,9 +1,5 @@
-import'../styles/TrendingNews.css';
-
-
+import'../styles/TrendingNews.css'
 import { useEffect, useState } from "react";
-
-
 import { CalendarDays, User } from "lucide-react";
 import { Link } from "react-router-dom"; // or 'next/link' if using Next.js
 
@@ -15,7 +11,7 @@ useEffect(() => {
       // Sort articles by createdAt date in descending order
       const sortedArticles = [...articles].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       // Take the top 5 articles
-      setTrendingArticles(sortedArticles.slice(0, 1));
+      setTrendingArticles(sortedArticles.slice(0, 2));
     }
   }, [articles]);
 
