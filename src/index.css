@@ -1,28 +1,48 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* CSS Variables */
 :root {
-  /* Core Colors */
-  --primary: #2563eb;            /* Blue */
-  --secondary: #111827;          /* Dark Gray / Black */
+  --primary: #2563eb;
+  --secondary: #1f2937;
   --white: #ffffff;
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.25);
+  --shadow-heavy: rgba(0, 0, 0, 0.4);
+  --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --border-radius: 8px;
+}
 
-  /* Light Shades (optional for UI contrast) */
-  --background: #f9fafb;         /* Light Gray */
-  --text: #1f2937;               /* Dark Gray for readable text */
+body {
+  font-family: 'Merriweather', Georgia, serif;
+  background: var(--white);
+  color: var(--secondary);
+}
 
-  /* Gradients */
-  --primary-gradient: linear-gradient(135deg, #2563eb, #3b82f6);
-  --secondary-gradient: linear-gradient(135deg, #111827, #1f2937);
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
 }
 
 
 
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

@@ -16,11 +16,12 @@ import { CreateArticle } from './pages/CreateArticle';
 
 // Importing API functions
 import { getArticles } from './api/articles'; // Adjust the import path as needed
-
+import { getCategories } from './api/categories'; // Adjust the import path as needed
 
 function App() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const fetchAndSet = async (apFn, setter, label) => {
     try {
@@ -39,13 +40,14 @@ function App() {
 
   useEffect(() => {
     fetchAndSet(getArticles, setArticles, 'articles');
+    fetchAndSet(getCategories, setCategories, 'categories');
   }, []);
 
   return (
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/" element={<Home articles={articles} loading={loading} />} />
+        <Route path="/" element={<Home articles={articles} loading={loading} categories={categories} />} />
         <Route path="/article/:id" element={<ArticlePage articles={articles} loading={loading} />} />
         <Route path="/edit-article/:id" element={<EditArticle articles={articles} loading={loading} />} />
         <Route path="/create-article" element={<CreateArticle articles={articles} loading={loading} />} />

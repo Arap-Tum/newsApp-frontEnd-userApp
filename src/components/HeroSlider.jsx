@@ -1,58 +1,92 @@
-import React from 'react'
-import '../styles/HeroSlider.css' // Ensure you have the correct path to your CSS file
-import { useState, useEffect } from 'react'
-
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+import '../styles/HeroSlider.css';
 
 export const HeroSlider = ({ articles }) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-    console.log(articles);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % articles.length);
+    }, 15000);
+    
+    return () => clearInterval(interval);
+  }, [articles.length]);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % articles.length);
-        }, 15000);
-        return () => clearInterval(interval);
-    }, [articles.length]);
+  const handlePrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length);
+  };
+
+  const handleNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % articles.length);
+  };
+
+  const handleDotClick = (index) => {
+    setCurrentSlide(index);
+  };
+
+  if (!articles || articles.length === 0) {
+    return <div className="hero-slider-empty">No articles available</div>;
+  }
 
   return (
-     <div className="hero-slider">
-      {articles.map((article, index) => (
-        
-        <div
-          key={article.id}
-          className={`slide ${index === currentSlide ? "active" : ""}`}
-          style={{ backgroundImage: `url(${article.imageUrl})` }}
-        >
-            {/* <img src={`http://localhost:5000${article.imageUrl}`} alt={article.title} /> */}
-          <div className="overlay">
-            <h2 className="slide-title">{article.title}</h2>
+    <div className="hero-slider">
+      {/* Slides Container */}
+      <div className="slides-container">
+        {articles.map((article, index) => (
+          <div
+            key={article.id}
+            className={`slide ${index === currentSlide ? 'active' : ''}`}
+            style={{ backgroundImage: `url(${article.imageUrl})` }}
+          >
+            <div className="slide-overlay">
+              <div className="slide-content">
+                <h2 className="slide-title">{article.title}</h2>
+                {/* {article.excerpt && (
+                  <p className="slide-excerpt">{article.excerpt}</p>
+                )} */}
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      <div className="dots">
-        {articles.map((_, i) => (
-          <span
-            key={i}
-            className={`dot ${i === currentSlide ? "active" : ""}`}
-            onClick={() => setCurrentSlide(i)}
+      {/* Navigation Dots */}
+      <div className="navigation-dots">
+        {articles.map((_, index) => (
+          <button
+            key={index}
+            className={`dot ${index === currentSlide ? 'active' : ''}`}
+            onClick={() => handleDotClick(index)}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
 
-      <div className="arrows">
-        <button onClick={() => setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length)}>
-          Prev
+      {/* Navigation Arrows */}
+      <div className="navigation-arrows">
+        <button 
+          className="arrow-btn prev-btn" 
+          onClick={handlePrevSlide}
+          aria-label="Previous slide"
+        >
+          <ArrowLeft size={24} />
         </button>
-        <button onClick={() => setCurrentSlide((prev) => (prev + 1) % articles.length)}>
-          Next
+        <button 
+          className="arrow-btn next-btn" 
+          onClick={handleNextSlide}
+          aria-label="Next slide"
+        >
+          <ArrowRight size={24} />
         </button>
       </div>
 
-      <div className='slideCounter'>
-        {currentSlide + 1} / {articles.length}
+      {/* Slide Counter */}
+      <div className="slide-counter">
+        <span className="current-slide">{currentSlide + 1}</span>
+        <span className="divider">/</span>
+        <span className="total-slides">{articles.length}</span>
       </div>
     </div>
-  )
-}
+  );
+};
