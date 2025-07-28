@@ -5,7 +5,7 @@ import { TrendingNews } from '../components/TrendingNews'
 import { CategorySec } from '../components/CategorySec'
 import { NewsList } from '../components/NewsList'
 
-export const Home = ({ articles, loading }) => {
+export const Home = ({ articles, loading, categories }) => {
   return (
     <main className='Home'>
       {loading && <Loading />}
@@ -20,7 +20,7 @@ export const Home = ({ articles, loading }) => {
           <TrendingNews articles={articles} />
         
           <NewsList articles={articles} />
-          <CategorySec articles={articles} />
+          <CategorySec articles={articles} categories={categories} />
         </>
       )}
     </main>
