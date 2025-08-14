@@ -1,75 +1,54 @@
-/* Base Layout */
-.home-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
+.news-home {
+  padding: 2rem;
 }
 
-/* Large screens layout */
-@media screen and (min-width: 1024px) {
-  .home-container {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* 66% : 34% */
-    gap: 2rem;
-    align-items: flex-start;
-  }
-
-  .left-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .right-column {
-    height: 100%;
-    overflow-y: auto;
-    max-height: 90vh;
-    padding-right: 0.5rem;
-  }
-
-  .newslist-section {
-    height: 100%;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: #ccc transparent;
-  }
+.news-home__grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* sidebar (left) + main content (right) */
+  gap: 2rem;
+  align-items: start;
 }
 
-/* Hero Style */
-.hero-section {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 1rem;
-}
-
-/* Trending Style */
-.trending-section {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 1rem;
-}
-
-/* Category at Bottom */
-.category-section {
-  margin-top: auto;
-  padding: 1rem;
+/* Card look for all sections */
+.news-home section {
   background: #fff;
-  border-radius: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Scrollbar Customization */
-.newslist-section::-webkit-scrollbar {
-  width: 6px;
+/* Desktop layout (≥1024px) */
+.news-home__side {
+  order: 1; /* Sidebar (NewsList) first */
 }
-.newslist-section::-webkit-scrollbar-thumb {
-  background-color: #aaa;
-  border-radius: 10px;
+
+.news-home__main {
+  order: 2; /* Main content second */
+}
+
+/* Tablet (768–1023px) */
+@media (max-width: 1023px) {
+  .news-home__grid {
+    grid-template-columns: 1fr; /* Stack vertically */
+  }
+
+  .news-home__main {
+    order: 1; /* Main content first */
+  }
+
+  .news-home__side {
+    order: 2; /* NewsList below main */
+  }
+}
+
+/* Mobile (<768px) */
+@media (max-width: 767px) {
+  .news-home {
+    padding: 1rem;
+  }
+
+  .news-home section {
+    padding: 1rem;
+    border-radius: 10px;
+  }
 }

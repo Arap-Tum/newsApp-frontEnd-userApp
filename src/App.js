@@ -49,7 +49,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home articles={articles} loading={loading} categories={categories} />} />
         <Route path="/article/:id" element={<ArticlePage articles={articles} loading={loading} />} />
-        <Route path="/edit-article/:id" element={<EditArticle articles={articles} loading={loading} />} />
+        <Route path="/edit-article/:title" element={<EditArticle articles={articles} loading={loading} />} />
         <Route path="/create-article" element={<CreateArticle articles={articles} loading={loading} />} />
         {/* Add more routes as needed */}
       </Routes>
