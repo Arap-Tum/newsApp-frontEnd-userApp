@@ -23,7 +23,7 @@ export const Home = ({ articles, loading, categories }) => {
   const listArticles = articles;     // Could also be filtered
   return (
  <main className="news-home">
-      <div className="news-home__grid">
+      {/* <div className="news-home__grid">
         <div className="news-home__main">
           <section className="news-home__hero" aria-label="Top Stories">
             <HeroSlider articles={heroArticles} />
@@ -43,7 +43,25 @@ export const Home = ({ articles, loading, categories }) => {
             <NewsList articles={listArticles} />
           </section>
         </aside>
-      </div>
+      </div> */}
+
+     <div className="item1">
+       <section className='slides-section'>
+          <HeroSlider articles={heroArticles} />
+      </section>
+
+      <section className="annalysis-section">
+        <TrendingNews articles={trendingArticles} />
+      </section>
+      
+      <section className="categories-section">
+          <CategorySec articles={categoryArticles} categories={categories} />
+      </section>
+     </div>
+
+      <section className="list-section">
+          <NewsList articles={listArticles} />
+      </section>
     </main>
   );
 };

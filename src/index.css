@@ -2,7 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-size: 16px;
+
   line-height: 1.5;
 }
 
@@ -44,7 +44,6 @@ body {
   background: var(--neutral-light);
   color: var(--neutral-dark);
   line-height: 1.6;
-  max-width: var(--max-text-width);
   margin: 0 auto;
 }
 
