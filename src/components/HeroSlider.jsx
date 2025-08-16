@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import '../styles/HeroSlider.css';
 
@@ -12,6 +12,13 @@ export const HeroSlider = ({ articles }) => {
     
     return () => clearInterval(interval);
   }, [articles.length]);
+
+  const SlidesArticles = useMemo(() => {
+    return articles
+    .filter(article => article.isFeatured )
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 8);
+  })
 
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length);
@@ -42,9 +49,7 @@ export const HeroSlider = ({ articles }) => {
             <div className="slide-overlay">
               <div className="slide-content">
                 <h2 className="slide-title">{article.title}</h2>
-                {/* {article.excerpt && (
-                  <p className="slide-excerpt">{article.excerpt}</p>
-                )} */}
+               
               </div>
             </div>
           </div>

@@ -1,37 +1,33 @@
 .news-home {
- background-color: bisque;
+ /* background-color: bisque; */
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 1rem;
+ flex-direction: column;
+ 
+  
+}
+ .home-content {
+     display: flex;
+     flex-direction: column;
+      padding: 1rem;
+      width: 100%;
   gap: 1rem;
 }
 
-.slides-section {
-background-color: red;
-}
-
-.annalysis-section {
-background-color: blue;
-}
-
-.categories-section {
-background-color: yellow;
-}
-
-.list-section {
-background-color: green;
-}
 
 
 @media screen and (min-width: 724px){
-  .news-home {
+  .home-content {
+     display: flex;
      flex-direction: row;
-     
 }
 
   .item1 {
     flex: 1;
+    gap: 1rem;
+  }
+
+  .list-section{
+    width: 400px;
   }
 
 }

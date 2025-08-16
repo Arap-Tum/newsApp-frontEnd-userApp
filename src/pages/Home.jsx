@@ -17,40 +17,26 @@ export const Home = ({ articles, loading, categories }) => {
   }
 
   // Pre-filter or slice data for each section
-  const heroArticles = articles.slice(0, 5);
+  const heroArticles = articles.slice(0, 10);
   const trendingArticles = articles.filter(a => a.isTrending);
   const categoryArticles = articles; // Adjust filtering as needed
   const listArticles = articles;     // Could also be filtered
   return (
  <main className="news-home">
-      {/* <div className="news-home__grid">
-        <div className="news-home__main">
-          <section className="news-home__hero" aria-label="Top Stories">
-            <HeroSlider articles={heroArticles} />
-          </section>
+    <div className="item2">
+      <h1 className="home-title">Welcome to The Phanthom</h1>
+      <p className="home-description">
+        Stay updated with the latest news from around the world.
+      </p>
+    </div>
 
-          <section className="news-home__trending" aria-label="Trending News">
-            <TrendingNews articles={trendingArticles} />
-          </section>
-
-          <section className="news-home__categories" aria-label="News by Category">
-            <CategorySec articles={categoryArticles} categories={categories} />
-          </section>
-        </div>
-
-        <aside className="news-home__side">
-          <section className="news-home__newslist" aria-label="Latest Articles">
-            <NewsList articles={listArticles} />
-          </section>
-        </aside>
-      </div> */}
-
-     <div className="item1">
+  <div className="home-content">
+      <div className="item1">
        <section className='slides-section'>
           <HeroSlider articles={heroArticles} />
       </section>
 
-      <section className="annalysis-section">
+      <section className="trending-section">
         <TrendingNews articles={trendingArticles} />
       </section>
       
@@ -62,6 +48,7 @@ export const Home = ({ articles, loading, categories }) => {
       <section className="list-section">
           <NewsList articles={listArticles} />
       </section>
+  </div>
     </main>
   );
 };
