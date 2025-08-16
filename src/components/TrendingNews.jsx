@@ -16,7 +16,7 @@ const trendingArticles = useMemo(() => {
     <section className="trending-news-section">
       {/* Section Header */}
       <header className="trending-header">
-        <h2 className="trending-title">Trending News</h2>
+        <h2 className="trending-title">Trending</h2>
       </header>
 
       {/* Trending Articles */}
