@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 
 import { CalendarDays, User } from "lucide-react";
 import { Link } from "react-router-dom"; //
+
 export const NewsList = ({ articles }) => {
   const [otherArticles, setOtherArticles] = useState([]);
+
+
 
   useEffect(() => {
     if (articles && articles.length > 0) {
@@ -38,7 +41,7 @@ export const NewsList = ({ articles }) => {
               </div>
 
               <p className="article-snippet">
-                {article.content.split(" ").slice(0, 30).join(" ")}...
+                {article.content.split(" ").slice(0, 25).join(" ")}...
               </p>
 
               <Link to={`/article/${article.id}`} className="read-more-link">

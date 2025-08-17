@@ -6,7 +6,7 @@ import { TrendingNews } from "../components/TrendingNews";
 import { CategorySec } from "../components/CategorySec";
 import { NewsList } from "../components/NewsList";
 
-export const Home = ({ articles, loading, categories }) => {
+export const Home = ({ articles, loading, categories, globalNews }) => {
    if (loading) return <Loading />;
   if (articles.length === 0) {
     return (
@@ -20,7 +20,8 @@ export const Home = ({ articles, loading, categories }) => {
   const heroArticles = articles.slice(0, 10);
   const trendingArticles = articles.filter(a => a.isTrending);
   const categoryArticles = articles; // Adjust filtering as needed
-  const listArticles = articles;     // Could also be filtered
+  const listArticles = globalNews.politics;     // Could also be filtered
+
   return (
  <main className="news-home">
     <div className="item2">

@@ -1,57 +1,44 @@
+import "./App.css";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
-import './App.css';
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 
-// Importing necessary libraries
-import React from 'react';
-import { Route, Routes }   from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Home } from "./pages/Home";
+import { ArticlePage } from "./pages/ArticlePage";
+import { EditArticle } from "./pages/EditArticle";
+import { CreateArticle } from "./pages/CreateArticle";
 
-// Importing components and pages
-import { Header } from './components/Header';
-import { Home } from './pages/Home';
-import { ArticlePage } from './pages/ArticlePage';
-import { Footer } from './components/Footer'; 
-import { EditArticle } from './pages/EditArticle'; // Ensure this import is correct
-import { CreateArticle } from './pages/CreateArticle'; 
-
-// Importing API functions
-import { getArticles } from './api/articles'; // Adjust the import path as needed
-import { getCategories } from './api/categories'; // Adjust the import path as needed
+import { useArticles } from "./hooks/useArticles";
+import { useCategories } from "./hooks/useCategory";
+import { useGlobalNews } from "./hooks/useGlobalNews";
 
 function App() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const { articles, loading: articlesLoading } = useArticles();
+  const { categories, loading: categoriesLoading } = useCategories();
+  const { news: globalNews, loading: globalLoading } = useGlobalNews();
 
-  const fetchAndSet = async (apFn, setter, label) => {
-    try {
-      setLoading(true);
-      const response = await apFn();
-      console.log(`✅ ${label} fetched`);
-      setter(response.data);
-    } catch (error) {
-      console.error(`Error fetching ${label}:`, error);
-      console.error(`❌ ${label} Error:`, error.message);
-      console.log("🔍 URL:", error.config?.baseURL + error.config?.url);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAndSet(getArticles, setArticles, 'articles');
-    fetchAndSet(getCategories, setCategories, 'categories');
-  }, []);
+  const loading = articlesLoading || categoriesLoading || globalLoading;
 
   return (
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/" element={<Home articles={articles} loading={loading} categories={categories} />} />
-        <Route path="/article/:id" element={<ArticlePage articles={articles} loading={loading} />} />
-        <Route path="/edit-article/:title" element={<EditArticle articles={articles} loading={loading} />} />
-        <Route path="/create-article" element={<CreateArticle articles={articles} loading={loading} />} />
-        {/* Add more routes as needed */}
+        <Route
+          path="/"
+          element={
+            <Home
+              articles={articles}
+              globalNews={globalNews}
+              categories={categories}
+              loading={loading}
+            />
+          }
+        />
+        <Route path="/article/:id" element={<ArticlePage articles={articles} />} />
+        <Route path="/edit-article/:title" element={<EditArticle articles={articles} />} />
+        <Route path="/create-article" element={<CreateArticle articles={articles} />} />
       </Routes>
       <Footer />
     </div>
