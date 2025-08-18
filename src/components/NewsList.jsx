@@ -55,11 +55,11 @@ export const NewsList = ({ articles }) => {
                 )}
               </div>
 
-              <p className="news-card__snippet">
+              {/* <p className="news-card__snippet">
                 {article.description?.split(" ").slice(0, 20).join(" ") ||
                   article.content?.split(" ").slice(0, 20).join(" ")}
                 ...
-              </p>
+              </p> */}
 
            <Link 
   to={`/articles/${encodeURIComponent(article.url)}`} 
