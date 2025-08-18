@@ -40,7 +40,7 @@ export const NewsList = ({ articles }) => {
             )}
 
             <div className="news-card__body">
-              <h3 className="news-card__title">{article.title}</h3>
+              <h3 className="news-card__title">{article.title.split(" ").slice(0, 10).join(" ")}</h3>
 
               <div className="news-card__meta">
                 <span className="news-card__date">
@@ -56,14 +56,17 @@ export const NewsList = ({ articles }) => {
               </div>
 
               <p className="news-card__snippet">
-                {article.description?.split(" ").slice(0, 10).join(" ") ||
-                  article.content?.split(" ").slice(0, 30).join(" ")}
+                {article.description?.split(" ").slice(0, 20).join(" ") ||
+                  article.content?.split(" ").slice(0, 20).join(" ")}
                 ...
               </p>
 
-              <Link to={`/article/${index}`} className="news-card__link">
-                Read More →
-              </Link>
+           <Link 
+  to={`/articles/${encodeURIComponent(article.url)}`} 
+  className="news-card__link"
+>
+  Read More →
+</Link>
             </div>
           </article>
         ))}

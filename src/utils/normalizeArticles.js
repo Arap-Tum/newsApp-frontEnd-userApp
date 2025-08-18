@@ -12,7 +12,7 @@ export const normalizeDbArticle = (article) => ({
 export const normalizeApiArticle = (article) => ({
   id: article.url, // URL is unique enough
   title: article.title,
-  description: article.content || article.description,
+  description: article.description,
   image: article.urlToImage,
   category: article.category || "World",
   date: article.publishedAt,
