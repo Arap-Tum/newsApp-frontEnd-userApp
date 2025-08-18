@@ -25,7 +25,7 @@ export const Home = ({ articles, loading, categories, globalNews, allArticles  }
   const heroArticles = articles.slice(0, 10);
   const trendingArticles = articles.filter((a) => a.isTrending);
   const categoryArticles = articles;
-  const listArticles = globalNews.politics.slice(0, 6);  // Could also be filtered
+  const listArticles = globalNews.politics.slice(0, 10);  // Could also be filtered
 
   
   return (
