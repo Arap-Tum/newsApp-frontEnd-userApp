@@ -7,12 +7,14 @@ import { Footer } from "./components/Footer";
 
 import { Home } from "./pages/Home";
 import { ArticlePage } from "./pages/ArticlePage";
-import { EditArticle } from "./pages/EditArticle";
-import { CreateArticle } from "./pages/CreateArticle";
+
 
 import { useArticles } from "./hooks/useArticles";
 import { useCategories } from "./hooks/useCategory";
 import { useGlobalNews } from "./hooks/useGlobalNews";
+import { Loading } from "./components/Loading";
+
+import { normalizeApiArticle, normalizeDbArticle } from "./utils/normalizeArticles";
 
 function App() {
   const { articles, loading: articlesLoading } = useArticles();
@@ -21,10 +23,16 @@ function App() {
 
   const loading = articlesLoading || categoriesLoading || globalLoading;
 
+   // Normalize
+  const localArticles = articles.map(normalizeDbArticle);
+  const politicsArticles = globalNews?.politics?.map(normalizeApiArticle) || [];
+  const allArticles = [...localArticles, ...politicsArticles];
+
+  if (loading) return <Loading />;
   return (
     <div className="App">
       <Header />
-      <Routes>
+           <Routes>
         <Route
           path="/"
           element={
@@ -32,13 +40,15 @@ function App() {
               articles={articles}
               globalNews={globalNews}
               categories={categories}
+              allArticles={allArticles} // ✅ pass normalized merged list
               loading={loading}
             />
           }
         />
-        <Route path="/article/:id" element={<ArticlePage articles={articles} />} />
-        <Route path="/edit-article/:title" element={<EditArticle articles={articles} />} />
-        <Route path="/create-article" element={<CreateArticle articles={articles} />} />
+        <Route
+          path="/articles/:id"
+          element={<ArticlePage articles={allArticles} />} // ✅ use merged list
+        />
       </Routes>
       <Footer />
     </div>

@@ -1,54 +1,71 @@
+import '../styles/newsList.css';
 import { useState, useEffect } from "react";
-
-import { CalendarDays, User } from "lucide-react";
-import { Link } from "react-router-dom"; //
+import { CalendarDays } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const NewsList = ({ articles }) => {
-  const [otherArticles, setOtherArticles] = useState([]);
-
-
+  const [sortedArticles, setSortedArticles] = useState([]);
 
   useEffect(() => {
     if (articles && articles.length > 0) {
-      //sort articles by createdAt date in descending order
-      const sortedArticles = [...articles].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      // Sort by publishedAt (newest first)
+      const sorted = [...articles].sort(
+        (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
       );
-      // Take the top 5 articles
-      setOtherArticles(sortedArticles.slice(1, 5));
+      setSortedArticles(sorted);
+
+      console.log("Sorted Articles:", sorted);
     }
   }, [articles]);
 
   return (
-    <section className="other-news-wrapper">
-      <h2 className="section-title">Other News</h2>
-      <div className="articles-list">
-        {/* Map through other articles and display them */}
-        {otherArticles.map((article) => (
-          <div key={article.id} className="article-card">
-            <div className="article-content">
-              <h3 className="article-title">{article.title}</h3>
+    <section className="news">
+     
+      <div className="news__header">
+        <h2 className="news__title">Latest News</h2>
+        {/* <span className="news__count">{sortedArticles.length} Articles</span> */}
+      </div>
 
-              <div className="article-meta">
-                <span className="meta-author">
-                  <User className="icon-author" />
-                  {article.author?.name || "Unknown Author"}
+      <div className="news__grid">
+        {sortedArticles.map((article, index) => (
+          <article key={index} className="news-card">
+            {article.urlToImage && (
+              <div className="news-card__image-wrapper">
+                <img
+                  src={article.urlToImage}
+                  alt={article.title}
+                  className="news-card__image"
+                />
+              </div>
+            )}
+
+            <div className="news-card__body">
+              <h3 className="news-card__title">{article.title}</h3>
+
+              <div className="news-card__meta">
+                <span className="news-card__date">
+                  <CalendarDays className="news-card__icon" />
+                  {new Date(article.publishedAt).toLocaleDateString()}
                 </span>
-                <span className="meta-date">
-                  <CalendarDays className="icon-date" />
-                  {new Date(article.createdAt).toLocaleDateString()}
-                </span>
+                {article.source?.name && (
+                  <span className="news-card__source">{article.source.name}</span>
+                )}
+                {article.author && (
+                  <span className="news-card__author">By {article.author}</span>
+                )}
               </div>
 
-              <p className="article-snippet">
-                {article.content.split(" ").slice(0, 25).join(" ")}...
+              <p className="news-card__snippet">
+                {article.description?.split(" ").slice(0, 10).join(" ") ||
+                  article.content?.split(" ").slice(0, 30).join(" ")}
+                ...
               </p>
 
-              <Link to={`/article/${article.id}`} className="read-more-link">
+              <Link to={`/article/${index}`} className="news-card__link">
                 Read More →
               </Link>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>
