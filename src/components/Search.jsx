@@ -1,9 +1,10 @@
-// components/SearchBar.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Search as SearchIcon } from "lucide-react";
+import "../styles/SearchBar.css";
 
 export const Search = () => {
-    const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -12,8 +13,9 @@ export const Search = () => {
       navigate(`/search?query=${encodeURIComponent(query)}`);
     }
   };
+
   return (
-     <form onSubmit={handleSearch} className="search-form">
+    <form onSubmit={handleSearch} className="search-form">
       <input
         type="text"
         placeholder="Search articles..."
@@ -22,8 +24,8 @@ export const Search = () => {
         className="search-input"
       />
       <button type="submit" className="search-btn">
-        Search
+        <SearchIcon size={18} />
       </button>
     </form>
-  )
-}
+  );
+};

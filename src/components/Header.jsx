@@ -1,7 +1,9 @@
-import React from 'react'
-
+import React from "react";
+import "../styles/header.css";
 export const Header = () => {
   return (
-    <div>Header</div>
-  )
-}
+    <header className="header">
+      <h1>The Phantom News</h1>
+    </header>
+  );
+};

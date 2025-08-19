@@ -1,0 +1,54 @@
+.navbar {
+  background: var(--gradient-brand);
+  box-shadow: var(--shadow-heavy);
+  font-family: var(--font-sans);
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Hide scrollbar but keep scrollability */
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+.navbar {
+  -ms-overflow-style: none;  /* IE */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color var(--transition-fast);
+}
+
+/* Underline animation */
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--white);
+  transition: width var(--transition-smooth);
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+.nav-links li a:hover {
+  color: var(--neutral-light);
+}
