@@ -1,4 +1,4 @@
-import '../styles/newsList.css';
+import "../styles/newsList.css";
 import { useState, useEffect } from "react";
 import { CalendarDays } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,7 +20,6 @@ export const NewsList = ({ articles }) => {
 
   return (
     <section className="news">
-     
       <div className="news__header">
         <h2 className="news__title">Latest News</h2>
         {/* <span className="news__count">{sortedArticles.length} Articles</span> */}
@@ -40,7 +39,9 @@ export const NewsList = ({ articles }) => {
             )}
 
             <div className="news-card__body">
-              <h3 className="news-card__title">{article.title.split(" ").slice(0, 10).join(" ")}</h3>
+              <h3 className="news-card__title">
+                {article.title.split(" ").slice(0, 10).join(" ")}
+              </h3>
 
               <div className="news-card__meta">
                 <span className="news-card__date">
@@ -48,7 +49,9 @@ export const NewsList = ({ articles }) => {
                   {new Date(article.publishedAt).toLocaleDateString()}
                 </span>
                 {article.source?.name && (
-                  <span className="news-card__source">{article.source.name}</span>
+                  <span className="news-card__source">
+                    {article.source.name}
+                  </span>
                 )}
                 {article.author && (
                   <span className="news-card__author">By {article.author}</span>
@@ -61,12 +64,12 @@ export const NewsList = ({ articles }) => {
                 ...
               </p> */}
 
-           <Link 
-  to={`/articles/${encodeURIComponent(article.url)}`} 
-  className="news-card__link"
->
-  Read More →
-</Link>
+              <Link
+                to={`/articles/${encodeURIComponent(article.url)}`}
+                className="news-card__link"
+              >
+                Read More →
+              </Link>
             </div>
           </article>
         ))}
