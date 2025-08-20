@@ -58,7 +58,7 @@ export default function SearchResults({ allArticles }) {
               className="result-card"
             >
               <img
-                src={article.image || article.urltoImg}
+                src={article.image || article.urlToImg}
                 alt={article.title}
                 className="result-img"
               />

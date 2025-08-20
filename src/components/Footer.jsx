@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Twitter, Facebook, Instagram } from "lucide-react";
 import "../styles/footer.css";
 
@@ -14,7 +15,7 @@ export const Footer = () => {
         {/* Branding */}
         <div className="footer-branding">
           <h2 className="footer-logo">THE PHANTOM NEWS</h2>
-          <p className="footer-tagline">Truth beyond the headlines.</p>
+          <p className="footer-tagline">get them here.</p>
         </div>
 
         {/* Navigation */}
@@ -22,16 +23,32 @@ export const Footer = () => {
           <h3 className="footer-heading">Sections</h3>
           <ul className="footer-links">
             <li>
-              <a href="/politics">Politics</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="/business">Business</a>
+              <Link to="/global">Global</Link>
             </li>
             <li>
-              <a href="/technology">Technology</a>
+              <Link to="/politics">Politics</Link>
             </li>
             <li>
-              <a href="/health">Health</a>
+              <Link to="/business">Business</Link>
+            </li>
+            <li>
+              <Link to="/technology">Technology</Link>
+            </li>
+            <li>
+              <Link to="/sports">Sports</Link>
+            </li>
+            <li>
+              <Link to="/entertainment">Entertainment</Link>
+            </li>
+            <li>
+              <Link to="/health">Health</Link>
+            </li>
+
+            <li>
+              <Link to="/health">Ukraine</Link>
             </li>
           </ul>
         </nav>

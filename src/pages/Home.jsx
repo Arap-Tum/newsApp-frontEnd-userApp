@@ -4,16 +4,8 @@ import { HeroSlider } from "../components/HeroSlider";
 import { TrendingNews } from "../components/TrendingNews";
 import { CategorySec } from "../components/CategorySec";
 import { NewsList } from "../components/NewsList";
-import { Search } from "../components/Search";
-import { Navbar } from "../components/Navbar";
 
-export const Home = ({
-  articles,
-  loading,
-  categories,
-  globalNews,
-  allArticles,
-}) => {
+export const Home = ({ articles, loading, categories, globalNews }) => {
   if (loading) return <Loading />;
   if (articles.length === 0) {
     return (
@@ -31,13 +23,13 @@ export const Home = ({
 
   return (
     <main className="news-home">
-      <div>
+      {/* <div>
         <Navbar />
       </div>
 
       <div>
         <Search allArticles={allArticles} />
-      </div>
+      </div> */}
 
       <div className="home-content">
         <div className="item1">

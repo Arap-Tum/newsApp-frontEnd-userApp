@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
-import '../styles/HeroSlider.css';
+import React, { useState, useEffect, useMemo } from "react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
+import "../styles/HeroSlider.css";
 
 export const HeroSlider = ({ articles }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -9,16 +9,16 @@ export const HeroSlider = ({ articles }) => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % articles.length);
     }, 15000);
-    
+
     return () => clearInterval(interval);
   }, [articles.length]);
 
-  const SlidesArticles = useMemo(() => {
-    return articles
-    .filter(article => article.isFeatured )
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 8);
-  })
+  // const SlidesArticles = useMemo(() => {
+  //   return articles
+  //   .filter(article => article.isFeatured )
+  //   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  //   .slice(0, 8);
+  // })
 
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + articles.length) % articles.length);
@@ -43,13 +43,12 @@ export const HeroSlider = ({ articles }) => {
         {articles.map((article, index) => (
           <div
             key={article.id}
-            className={`slide ${index === currentSlide ? 'active' : ''}`}
+            className={`slide ${index === currentSlide ? "active" : ""}`}
             style={{ backgroundImage: `url(${article.imageUrl})` }}
           >
             <div className="slide-overlay">
               <div className="slide-content">
                 <h2 className="slide-title">{article.title}</h2>
-               
               </div>
             </div>
           </div>
@@ -61,7 +60,7 @@ export const HeroSlider = ({ articles }) => {
         {articles.map((_, index) => (
           <button
             key={index}
-            className={`dot ${index === currentSlide ? 'active' : ''}`}
+            className={`dot ${index === currentSlide ? "active" : ""}`}
             onClick={() => handleDotClick(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -70,15 +69,15 @@ export const HeroSlider = ({ articles }) => {
 
       {/* Navigation Arrows */}
       <div className="navigation-arrows">
-        <button 
-          className="arrow-btn prev-btn" 
+        <button
+          className="arrow-btn prev-btn"
           onClick={handlePrevSlide}
           aria-label="Previous slide"
         >
           <ArrowLeft size={24} />
         </button>
-        <button 
-          className="arrow-btn next-btn" 
+        <button
+          className="arrow-btn next-btn"
           onClick={handleNextSlide}
           aria-label="Next slide"
         >

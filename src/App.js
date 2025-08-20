@@ -22,6 +22,9 @@ import { Sports } from "./pages/Sports";
 import { Entertainment } from "./pages/Entertainment";
 import { Health } from "./pages/Health";
 import { Business } from "./pages/Business";
+import { Ukraine } from "./pages/Ukraine";
+import { Navbar } from "./components/Navbar";
+import { Search } from "./components/Search";
 
 function App() {
   const { articles, loading: articlesLoading } = useArticles();
@@ -31,15 +34,34 @@ function App() {
   const loading = articlesLoading || categoriesLoading || globalLoading;
 
    // Normalize
+   /*Make it have a common element */
   const localArticles = articles.map(normalizeDbArticle);
   const politicsArticles = globalNews?.politics?.map(normalizeApiArticle) || [];
-  const allArticles = [...localArticles, ...politicsArticles];
+  const businessArticles = globalNews?.business?.map(normalizeApiArticle) || [];
+  const technologyArticles = globalNews?.technology?.map(normalizeApiArticle) || [];
+  const sportsArticles = globalNews?.sports?.map(normalizeApiArticle) || [];
+  const entertainmentArticles =  globalNews?.entertainment?.map(normalizeApiArticle) || [];
+  const healthArticles = globalNews?.health?.map(normalizeApiArticle) || []; 
+  const ukraineArticles = globalNews?.ukraine?.map(normalizeApiArticle) || [];
+
+  const allArticles = [
+    ...localArticles,
+     ...politicsArticles, 
+     ...businessArticles, 
+     ...technologyArticles,
+     ...sportsArticles,
+     ...entertainmentArticles,
+     ...healthArticles,
+     ...ukraineArticles
+    ];
 
   if (loading) return <Loading />;
   return (
     <div className="App">
       <Header />
-           <Routes>
+      <Navbar />
+      <Search allArticles={allArticles} />
+      <Routes>
         <Route
           path="/"
           element={
@@ -58,14 +80,15 @@ function App() {
           path="/articles/:id"
           element={<ArticlePage articles={allArticles} />} // ✅ use merged list
         />
-       < Route path="/global" element={<GlobalNews />} />
-       <Route path="/global" element={<GlobalNews />} />
-        <Route path="/politics" element={<Politics />} />
-        <Route path="/business" element={<Business/>} />
-        <Route path="/technology" element={<Technology />} />
-        <Route path="/sports" element={<Sports/>} />
-        <Route path="/entertainment" element={<Entertainment/>} />
-        <Route path="/health" element={<Health />} />
+       <Route path="/global" element={<GlobalNews articles={allArticles}  />} />
+        <Route path="/politics" element={<Politics articles={politicsArticles} />} />
+        <Route path="/business" element={<Business articles={businessArticles}/>} />
+        <Route path="/technology" element={<Technology articles={technologyArticles} />} />
+        <Route path="/sports" element={<Sports articles={sportsArticles}/>} />
+        <Route path="/entertainment" element={<Entertainment articles={entertainmentArticles}/>} />
+        <Route path="/health" element={<Health articles={healthArticles} />} />
+
+        <Route path="/ukraine" element={<Ukraine articles={ukraineArticles} />} />
        
 
       </Routes>

@@ -1,13 +1,16 @@
 // hooks/useGlobalNews.js
 import { useEffect, useState } from "react";
-import { globalBusinessNews, globalSportsNews, trumpNews, worldPoliticsNews } from "../api/News.org";
+import { globalBusinessNews, globalSportsNews, technologyNews, worldPoliticsNews, ukraineNews, entertainmentNews, healthNews } from "../api/News.org";
 
 export function useGlobalNews() {
   const [news, setNews] = useState({
     business: [],
-    trump: [],
+    technology: [],
     sports: [],
-    politics: []
+    politics: [],
+    entertainment: [],
+    ukraine: [],
+    health: []
   });
   const [loading, setLoading] = useState(true);
 
@@ -15,13 +18,16 @@ export function useGlobalNews() {
     const fetchAll = async () => {
       try {
          setLoading(true);
-        const [business, trump, sports, politics] = await Promise.all([
+        const [business, technology, sports, politics, entertainment, ukraine, health ]= await Promise.all([
           globalBusinessNews,
-          trumpNews,
+          technologyNews,
           globalSportsNews,
+          entertainmentNews,
           worldPoliticsNews,
+          healthNews,
+          ukraineNews
         ]);
-        setNews({ business, trump, sports, politics });
+        setNews({ business, technology, sports, politics, ukraine, entertainment, health });
       } catch (err) {
         console.error("❌ Global news error:", err);
       } finally {

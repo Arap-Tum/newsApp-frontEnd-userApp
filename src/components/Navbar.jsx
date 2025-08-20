@@ -28,6 +28,10 @@ export const Navbar = () => {
         <li>
           <Link to="/health">Health</Link>
         </li>
+
+        <li>
+          <Link to="/health">Ukraine</Link>
+        </li>
       </ul>
     </nav>
   );
