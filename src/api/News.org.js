@@ -3,7 +3,12 @@
 
  */
 
-const apiKey = "4a2dd920a0064a2fb656294313963032";
+const apiKey = process.env.NEWS_API_KEY
+
+ || 
+"4a2dd920a0064a2fb656294313963032";
+
+console.log(apiKey)
 
 /* ===== Fetch Top Headlines (fixed categories ) ===== */
 // const fetchTopHeadlines = async (category, language = "en", country = "us") => {
