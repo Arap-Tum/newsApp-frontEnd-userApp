@@ -1,6 +1,6 @@
 // hooks/useGlobalNews.js
 import { useEffect, useState } from "react";
-import { globalBusinessNews, globalSportsNews, technologyNews, worldPoliticsNews, ukraineNews, entertainmentNews, healthNews } from "../api/News.org";
+import { globalBusinessNews, globalSportsNews, technologyNews, worldPoliticsNews, ukraineNews, entertainmentNews, healthNews } from "../api/newsApi";
 
 export function useGlobalNews() {
   const [news, setNews] = useState({

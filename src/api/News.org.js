@@ -39,7 +39,6 @@ const fetchEverything = async (query, language = "en", sortBy = "publishedAt") =
 // Hot topics
 //FROM EVERYWHERE 
 export const ukraineNews = await fetchEverything("ukraine war");
-export const trumpNews = await fetchEverything("donald trump");
 export const aiNews = await fetchEverything("artificial intelligence");
 export const worldPoliticsNews = await fetchEverything(
   "politics OR government OR election OR international relations"
