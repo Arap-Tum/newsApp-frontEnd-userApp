@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import "../styles/newsPge.css";
 
-export const Health = ({ articles }) => {
+export const Local = ({ articles }) => {
   const [page, setPage] = useState(1);
   const articlesPerPage = 8;
 

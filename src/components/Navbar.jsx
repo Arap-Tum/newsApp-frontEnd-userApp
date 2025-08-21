@@ -8,13 +8,16 @@ export const Navbar = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/global">Global</Link>
+          <Link to="/local">Kenya</Link>
         </li>
         <li>
-          <Link to="/politics">Politics</Link>
+          <Link to="/global">General</Link>
         </li>
         <li>
-          <Link to="/business">Business</Link>
+          <Link to="/politics"> Global Politics</Link>
+        </li>
+        <li>
+          <Link to="/business">Global Business</Link>
         </li>
         <li>
           <Link to="/technology">Technology</Link>

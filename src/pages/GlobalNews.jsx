@@ -2,9 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import "../styles/newsPge.css";
+
 export const GlobalNews = ({ articles }) => {
   const [page, setPage] = useState(1);
-  const articlesPerPage = 6;
+  const articlesPerPage = 8;
 
   // Paginate result
   const startIndex = (page - 1) * articlesPerPage;

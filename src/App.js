@@ -25,6 +25,7 @@ import { Business } from "./pages/Business";
 import { Ukraine } from "./pages/Ukraine";
 import { Navbar } from "./components/Navbar";
 import { Search } from "./components/Search";
+import { Local } from "./pages/Local";
 
 function App() {
   const { articles, loading: articlesLoading } = useArticles();
@@ -55,6 +56,16 @@ function App() {
      ...ukraineArticles
     ];
 
+ const globalArticles  = [
+   ...politicsArticles, 
+     ...businessArticles, 
+     ...technologyArticles,
+     ...sportsArticles,
+     ...entertainmentArticles,
+     ...healthArticles,
+     ...ukraineArticles
+ ];
+
   if (loading) return <Loading />;
   return (
     <div className="App">
@@ -80,7 +91,8 @@ function App() {
           path="/articles/:id"
           element={<ArticlePage articles={allArticles} />} // ✅ use merged list
         />
-       <Route path="/global" element={<GlobalNews articles={allArticles}  />} />
+       <Route path="/local" element={<Local articles={localArticles}  />} />
+       <Route path="/global" element={<GlobalNews articles={globalArticles}  />} />
         <Route path="/politics" element={<Politics articles={politicsArticles} />} />
         <Route path="/business" element={<Business articles={businessArticles}/>} />
         <Route path="/technology" element={<Technology articles={technologyArticles} />} />
