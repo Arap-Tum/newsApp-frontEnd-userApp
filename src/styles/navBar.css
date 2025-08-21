@@ -18,8 +18,7 @@
 
 .nav-links {
   display: flex;
-  justify-content: center;
-  align-items: center;
+ 
   gap: 1.25rem;
   list-style: none;
   margin: 0;
@@ -53,4 +52,14 @@
 
 .nav-links li a:hover {
   color: var(--neutral-light);
+}
+
+@media (min-width: 768px) {
+ 
+
+  .nav-links {
+     justify-content: center;
+  align-items: center;
+  }
+
 }
