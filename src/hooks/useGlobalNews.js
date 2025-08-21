@@ -1,6 +1,6 @@
 // hooks/useGlobalNews.js
 import { useEffect, useState } from "react";
-import { globalBusinessNews, globalSportsNews, technologyNews, worldPoliticsNews, ukraineNews, entertainmentNews, healthNews } from "../api/newsApi";
+import { globalBusinessNews, globalSportsNews, technologyNews, worldPoliticsNews, ukraineNews, entertainmentNews, healthNews } from "../api/newsApi"
 
 export function useGlobalNews() {
   const [news, setNews] = useState({
@@ -28,6 +28,8 @@ export function useGlobalNews() {
           ukraineNews
         ]);
         setNews({ business, technology, sports, politics, ukraine, entertainment, health });
+
+        console.log("✅ Global news fetched successfully" , business);
       } catch (err) {
         console.error("❌ Global news error:", err);
       } finally {
