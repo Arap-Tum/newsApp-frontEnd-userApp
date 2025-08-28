@@ -1,12 +1,17 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "../styles/newsPge.css";
 
-export const Local = ({ articles }) => {
+export const Local = ({ articles, scrapedArticles }) => {
   const [page, setPage] = useState(1);
   const articlesPerPage = 8;
+
+  
+  useEffect(() => {
+    console.log(scrapedArticles);
+  });
 
   // Paginate result
   const startIndex = (page - 1) * articlesPerPage;

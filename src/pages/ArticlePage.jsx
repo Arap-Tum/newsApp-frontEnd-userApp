@@ -97,7 +97,7 @@ export const ArticlePage = ({ articles }) => {
             .map((rel) => (
               <Link
                 key={rel.id}
-                to={`/articles/${rel.id}`}
+                to={`/articles/${encodeURIComponent(rel.id)}`}
                 className="related__card"
               >
                 {rel.image && <img src={rel.image} alt={rel.title} />}

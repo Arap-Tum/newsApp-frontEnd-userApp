@@ -12,9 +12,17 @@ import SearchResults from "./pages/SearchResults";
 import { useArticles } from "./hooks/useArticles";
 import { useCategories } from "./hooks/useCategory";
 import { useGlobalNews } from "./hooks/useGlobalNews";
+import { useScrapped } from "./hooks/useScrapedArticles";
+// import { useExternalNews } from "./hooks/useExternalNews";
+
 import { Loading } from "./components/Loading";
 
-import { normalizeApiArticle, normalizeDbArticle } from "./utils/normalizeArticles";
+import {
+  normalizeApiArticle,
+  normalizeDbArticle,
+  normalizeScrapedNews,
+} from "./utils/normalizeArticles";
+
 import { GlobalNews } from "./pages/GlobalNews";
 import { Politics } from "./pages/Politics";
 import { Technology } from "./pages/Technology";
@@ -31,40 +39,23 @@ function App() {
   const { articles, loading: articlesLoading } = useArticles();
   const { categories, loading: categoriesLoading } = useCategories();
   const { news: globalNews, loading: globalLoading } = useGlobalNews();
+  const { articles: scrapedArticles, loading: scrapedLoading } = useScrapped();
+  // const { news: externalNews, loading: externalLoading } = useExternalNews();
 
-  const loading = articlesLoading || categoriesLoading || globalLoading;
+  const loading =
+    articlesLoading || categoriesLoading || globalLoading || scrapedLoading;
 
-   // Normalize
-   /*Make it have a common element */
+  // Normalize
+  /*Make it have a common element */
   const localArticles = articles.map(normalizeDbArticle);
   const politicsArticles = globalNews?.politics?.map(normalizeApiArticle) || [];
-  const businessArticles = globalNews?.business?.map(normalizeApiArticle) || [];
-  const technologyArticles = globalNews?.technology?.map(normalizeApiArticle) || [];
-  const sportsArticles = globalNews?.sports?.map(normalizeApiArticle) || [];
-  const entertainmentArticles =  globalNews?.entertainment?.map(normalizeApiArticle) || [];
-  const healthArticles = globalNews?.health?.map(normalizeApiArticle) || []; 
-  const ukraineArticles = globalNews?.ukraine?.map(normalizeApiArticle) || [];
 
-  const allArticles = [
-    ...localArticles,
-     ...politicsArticles, 
-     ...businessArticles, 
-     ...technologyArticles,
-     ...sportsArticles,
-     ...entertainmentArticles,
-     ...healthArticles,
-     ...ukraineArticles
-    ];
+  //addition
+  const kenyanNews = scrapedArticles.map(normalizeScrapedNews);
 
- const globalArticles  = [
-   ...politicsArticles, 
-     ...businessArticles, 
-     ...technologyArticles,
-     ...sportsArticles,
-     ...entertainmentArticles,
-     ...healthArticles,
-     ...ukraineArticles
- ];
+  const allArticles = [...localArticles, ...politicsArticles, ...kenyanNews];
+
+  const globalArticles = [...politicsArticles];
 
   if (loading) return <Loading />;
   return (
@@ -85,24 +76,38 @@ function App() {
             />
           }
         />
-        <Route path="/search" element={<SearchResults allArticles={allArticles} />} />
+        <Route
+          path="/search"
+          element={<SearchResults allArticles={allArticles} />}
+        />
 
         <Route
           path="/articles/:id"
           element={<ArticlePage articles={allArticles} />} // ✅ use merged list
         />
-       <Route path="/local" element={<Local articles={localArticles}  />} />
-       <Route path="/global" element={<GlobalNews articles={globalArticles}  />} />
-        <Route path="/politics" element={<Politics articles={politicsArticles} />} />
-        <Route path="/business" element={<Business articles={businessArticles}/>} />
-        <Route path="/technology" element={<Technology articles={technologyArticles} />} />
-        <Route path="/sports" element={<Sports articles={sportsArticles}/>} />
-        <Route path="/entertainment" element={<Entertainment articles={entertainmentArticles}/>} />
-        <Route path="/health" element={<Health articles={healthArticles} />} />
+        <Route path="/local" element={<Local articles={kenyanNews} />} />
 
-        <Route path="/ukraine" element={<Ukraine articles={ukraineArticles} />} />
-       
+        <Route
+          path="/global"
+          element={<GlobalNews articles={globalArticles} />}
+        />
+        <Route
+          path="/politics"
+          element={<Politics articles={politicsArticles} />}
+        />
+        <Route path="/business" element={<Business articles={allArticles} />} />
+        <Route
+          path="/technology"
+          element={<Technology articles={allArticles} />}
+        />
+        <Route path="/sports" element={<Sports articles={allArticles} />} />
+        <Route
+          path="/entertainment"
+          element={<Entertainment articles={allArticles} />}
+        />
+        <Route path="/health" element={<Health articles={allArticles} />} />
 
+        <Route path="/ukraine" element={<Ukraine articles={allArticles} />} />
       </Routes>
       <Footer />
     </div>

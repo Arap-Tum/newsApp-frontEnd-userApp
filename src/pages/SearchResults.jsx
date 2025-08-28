@@ -54,7 +54,7 @@ export default function SearchResults({ allArticles }) {
           {paginatedResults.map((article) => (
             <Link
               key={article.id}
-              to={`/articles/${encodeURIComponent(article.url)}`}
+              to={`/articles/${encodeURIComponent(article.id)}`}
               className="result-card"
             >
               <img

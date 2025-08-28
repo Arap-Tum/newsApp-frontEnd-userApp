@@ -139,7 +139,7 @@
   text-align: justify;
 }
 
-.article__content p:first-letter {
+/* .article__content p:first-letter {
   font-family: var(--font-display);
   font-size: 4rem;
   font-weight: 700;
@@ -147,7 +147,7 @@
   float: left;
   margin: 0.1rem 0.5rem 0 0;
   color: var(--primary);
-}
+} */
 
 /* Read More Button */
 .btn-readmore {

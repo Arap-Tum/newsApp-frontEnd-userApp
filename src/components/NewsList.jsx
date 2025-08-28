@@ -14,7 +14,7 @@ export const NewsList = ({ articles }) => {
       );
       setSortedArticles(sorted);
 
-      console.log("Sorted Articles:", sorted);
+      // console.log("Sorted Articles:", sorted);
     }
   }, [articles]);
 

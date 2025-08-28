@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import "../styles/HeroSlider.css";
+import { Link } from "react-router-dom";
 
 export const HeroSlider = ({ articles }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -41,17 +42,18 @@ export const HeroSlider = ({ articles }) => {
       {/* Slides Container */}
       <div className="slides-container">
         {articles.map((article, index) => (
-          <div
-            key={article.id}
-            className={`slide ${index === currentSlide ? "active" : ""}`}
-            style={{ backgroundImage: `url(${article.imageUrl})` }}
-          >
-            <div className="slide-overlay">
-              <div className="slide-content">
-                <h2 className="slide-title">{article.title}</h2>
+          <Link to={`/articles/${article.id}`} key={article.id}>
+            <div
+              className={`slide ${index === currentSlide ? "active" : ""}`}
+              style={{ backgroundImage: `url(${article.imageUrl})` }}
+            >
+              <div className="slide-overlay">
+                <div className="slide-content">
+                  <h2 className="slide-title">{article.title}</h2>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
