@@ -12,7 +12,7 @@ export function useScrapped() {
         setLoading(true);
         const res = await getScrappedArticles();
         setArticles(res.data);
-        console.log("Fetched scraped articles:", res.data);
+        // console.log("Fetched scraped articles:", res.data);
       } catch (error) {
         console.error("Error fetching articles:", error);
       } finally {
