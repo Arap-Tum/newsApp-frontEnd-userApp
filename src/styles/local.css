@@ -1,4 +1,4 @@
-.news__grid {
+.news-page .news__grid {
   display: grid;
   grid-template-columns: 1fr; /* Mobile first */
   gap: 1rem;
