@@ -1,11 +1,14 @@
-// components/NavLinks.jsx
-import { Link } from "react-router-dom";
+// NavLinks.jsx
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ChevronDown, ChevronRight } from "lucide-react"; // or any icon library
 
-export const NavLinks = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+export const NavLinks = ({ isSidebar }) => {
+  const [openDropdown, setOpenDropdown] = useState(null);
 
-  const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+  const handleToggle = (menu) => {
+    setOpenDropdown(openDropdown === menu ? null : menu);
+  };
 
   return (
     <ul className="nav-links">
@@ -15,13 +18,25 @@ export const NavLinks = () => {
       <li>
         <Link to="/local">Kenya</Link>
       </li>
-
-      {/* Dropdown */}
-      <li className="dropdown">
-        <p onClick={toggleDropdown} className="dropdown-toggle">
-          Counties ▾
-        </p>
-        <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+      <li>
+        <button
+          className="dropdown-toggle"
+          onClick={() => handleToggle("counties")}
+        >
+          Counties
+          {isSidebar ? (
+            <ChevronRight
+              className={`icon ${openDropdown === "counties" ? "rotate" : ""}`}
+              size={16}
+            />
+          ) : (
+            <ChevronDown
+              className={`icon ${openDropdown === "counties" ? "rotate" : ""}`}
+              size={16}
+            />
+          )}
+        </button>
+        <ul className={`dropdown ${openDropdown === "counties" ? "open" : ""}`}>
           <li>
             <Link to="/nandi">Nandi</Link>
           </li>
@@ -36,7 +51,6 @@ export const NavLinks = () => {
           </li>
         </ul>
       </li>
-
       <li>
         <Link to="/global">General</Link>
       </li>
@@ -46,34 +60,37 @@ export const NavLinks = () => {
       <li>
         <Link to="/business">Business</Link>
       </li>
+
       <li>
-        <Link to="/technology">Technology</Link>
-      </li>
-      <li>
-        <Link to="/sports">Sports</Link>
-      </li>
-      <li>
-        <Link to="/entertainment">Entertainment</Link>
-      </li>
-      <li>
-        <Link to="/health">Health</Link>
-      </li>
-      <li className="dropdown">
-        <p onClick={toggleDropdown} className="dropdown-toggle">
-          More ▾
-        </p>
-        <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+        <button
+          className="dropdown-toggle"
+          onClick={() => handleToggle("more")}
+        >
+          More
+          {isSidebar ? (
+            <ChevronRight
+              className={`icon ${openDropdown === "more" ? "rotate" : ""}`}
+              size={16}
+            />
+          ) : (
+            <ChevronDown
+              className={`icon ${openDropdown === "more" ? "rotate" : ""}`}
+              size={16}
+            />
+          )}
+        </button>
+        <ul className={`dropdown ${openDropdown === "more" ? "open" : ""}`}>
           <li>
-            <Link to="/nandi">Nandi</Link>
+            <Link to="/technology">Technology</Link>
           </li>
           <li>
-            <Link to="/turkana">Turkana</Link>
+            <Link to="/sports">Sports</Link>
           </li>
           <li>
-            <Link to="/baringo">Baringo</Link>
+            <Link to="/entertainment">Entertainment</Link>
           </li>
           <li>
-            <Link to="/bomet">Bomet</Link>
+            <Link to="/health">Health</Link>
           </li>
         </ul>
       </li>
