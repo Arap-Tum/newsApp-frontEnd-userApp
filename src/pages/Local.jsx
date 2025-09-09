@@ -6,9 +6,8 @@ import "../styles/newsPge.css";
 
 export const Local = ({ articles, scrapedArticles }) => {
   const [page, setPage] = useState(1);
-  const articlesPerPage = 8;
+  const articlesPerPage = 20;
 
-  
   useEffect(() => {
     console.log(scrapedArticles);
   });
