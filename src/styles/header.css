@@ -1,7 +1,66 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --neutral-dark: #1f2937;
+  --neutral-light: #f3f4f6;
+  --white: #ffffff;
+}
+
+/* HEADER */
 .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  background-color: var(--neutral-light);
+  color: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.hamburger-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: none;
+  border: none;
+  color: var(--neutral-dark);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.hamburger-menu:hover {
+  background: var(--primary-hover);
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 900;
+}
+
+/* .sidebar.open {
+  left: 0;
+} */
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .hamburger-menu {
+    display: none;
+  }
+  .overlay {
+    display: none;
+  }
+
 }

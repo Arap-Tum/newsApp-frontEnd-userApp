@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { Header } from "./components/Header";
@@ -34,6 +34,7 @@ import { Ukraine } from "./pages/Ukraine";
 import { Navbar } from "./components/Navbar";
 import { Search } from "./components/Search";
 import { Local } from "./pages/Local";
+// import { SideBar } from "./components/SideBar";
 
 function App() {
   const { articles, loading: articlesLoading } = useArticles();
@@ -41,6 +42,14 @@ function App() {
   const { news: globalNews, loading: globalLoading } = useGlobalNews();
   const { articles: scrapedArticles, loading: scrapedLoading } = useScrapped();
   // const { news: externalNews, loading: externalLoading } = useExternalNews();
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const loading =
     articlesLoading || categoriesLoading || globalLoading || scrapedLoading;
@@ -61,7 +70,8 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Navbar />
+      {!isMobile && <Navbar />}
+
       <Search allArticles={allArticles} />
       <Routes>
         <Route
