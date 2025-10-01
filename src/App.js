@@ -1,10 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-
 import { Home } from "./pages/Home";
 import { ArticlePage } from "./pages/ArticlePage";
 import SearchResults from "./pages/SearchResults";
@@ -30,10 +25,11 @@ import { Sports } from "./pages/Sports";
 import { Entertainment } from "./pages/Entertainment";
 import { Health } from "./pages/Health";
 import { Business } from "./pages/Business";
-import { Ukraine } from "./pages/Ukraine";
-import { Navbar } from "./components/Navbar";
-import { Search } from "./components/Search";
+
 import { Local } from "./pages/Local";
+import { Login } from "./pages/auth/Login";
+import { Register } from "./pages/auth/Register";
+import Layout from "./Layout";
 // import { SideBar } from "./components/SideBar";
 
 function App() {
@@ -42,14 +38,6 @@ function App() {
   const { news: globalNews, loading: globalLoading } = useGlobalNews();
   const { articles: scrapedArticles, loading: scrapedLoading } = useScrapped();
   // const { news: externalNews, loading: externalLoading } = useExternalNews();
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const loading =
     articlesLoading || categoriesLoading || globalLoading || scrapedLoading;
@@ -68,59 +56,60 @@ function App() {
 
   if (loading) return <Loading />;
   return (
-    <div className="App">
-      <Header />
-      {!isMobile && <Navbar />}
-
-      <Search allArticles={allArticles} />
+    <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              articles={articles}
-              globalNews={globalNews}
-              categories={categories}
-              allArticles={allArticles} // ✅ pass normalized merged list
-              loading={loading}
-            />
-          }
-        />
-        <Route
-          path="/search"
-          element={<SearchResults allArticles={allArticles} />}
-        />
+        {/* Layout pages ( with Header + Footer + Search) */}
+        <Route element={<Layout allArticles={allArticles} />}>
+          <Route
+            path="/"
+            element={
+              <Home
+                articles={articles}
+                globalNews={globalNews}
+                categories={categories}
+                allArticles={allArticles} // ✅ pass normalized merged list
+                loading={loading}
+              />
+            }
+          />
+          <Route
+            path="/search"
+            element={<SearchResults allArticles={allArticles} />}
+          />
+          <Route
+            path="/articles/:id"
+            element={<ArticlePage articles={allArticles} />}
+          />
+          <Route path="/local" element={<Local articles={kenyanNews} />} />
 
-        <Route
-          path="/articles/:id"
-          element={<ArticlePage articles={allArticles} />} // ✅ use merged list
-        />
-        <Route path="/local" element={<Local articles={kenyanNews} />} />
+          <Route
+            path="/global"
+            element={<GlobalNews articles={globalArticles} />}
+          />
+          <Route
+            path="/politics"
+            element={<Politics articles={politicsArticles} />}
+          />
+          <Route
+            path="/business"
+            element={<Business articles={allArticles} />}
+          />
+          <Route
+            path="/technology"
+            element={<Technology articles={allArticles} />}
+          />
+          <Route path="/sports" element={<Sports articles={allArticles} />} />
+          <Route
+            path="/entertainment"
+            element={<Entertainment articles={allArticles} />}
+          />
+          <Route path="/health" element={<Health articles={allArticles} />} />
+        </Route>
 
-        <Route
-          path="/global"
-          element={<GlobalNews articles={globalArticles} />}
-        />
-        <Route
-          path="/politics"
-          element={<Politics articles={politicsArticles} />}
-        />
-        <Route path="/business" element={<Business articles={allArticles} />} />
-        <Route
-          path="/technology"
-          element={<Technology articles={allArticles} />}
-        />
-        <Route path="/sports" element={<Sports articles={allArticles} />} />
-        <Route
-          path="/entertainment"
-          element={<Entertainment articles={allArticles} />}
-        />
-        <Route path="/health" element={<Health articles={allArticles} />} />
-
-        <Route path="/ukraine" element={<Ukraine articles={allArticles} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
       </Routes>
-      <Footer />
-    </div>
+    </>
   );
 }
 

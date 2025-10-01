@@ -1,8 +1,10 @@
-const API_BASE = "https://news-72me.onrender.com"; 
+const API_BASE = "https://news-72me.onrender.com";
 
 const fetchEverything = async (query) => {
   try {
-    const res = await fetch(`${API_BASE}/api/news?q=${encodeURIComponent(query)}`);
+    const res = await fetch(
+      `${API_BASE}/api/news?q=${encodeURIComponent(query)}`
+    );
     const data = await res.json();
     return data.articles || [];
   } catch (err) {
