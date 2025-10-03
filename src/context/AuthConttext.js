@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import UserRole from "../role";
 
 const AuthContext = createContext();
 

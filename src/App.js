@@ -1,4 +1,6 @@
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { ArticlePage } from "./pages/ArticlePage";
@@ -30,7 +32,28 @@ import { Local } from "./pages/Local";
 import { Login } from "./pages/auth/Login";
 import { Register } from "./pages/auth/Register";
 import Layout from "./Layout";
+
 // import { SideBar } from "./components/SideBar";
+
+//=============== CRUD ======================================
+import { CreateArticle } from "./pages/crud/CreateArticle";
+import { ManageArticles } from "./pages/crud/ManageArticles";
+import { UpdateArticle } from "./pages/crud/UpdateArticle";
+import { CategoriesList } from "./pages/crud/CategoriesList";
+import { CategoryCreate } from "./pages/crud/CategoryCreate";
+import { CategoryEdit } from "./pages/crud/CategoryEdit";
+import { ArticleDetails } from "./pages/crud/ArticleDetails";
+
+// ================== ADMIN ============================
+import { ManageUsers } from "./pages/admin/ManageUsers";
+import { UserDetails } from "./pages/admin/UserDetails";
+import AdminLayout from "./pages/admin/AdminLyout";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { AdminNotFound } from "./pages/admin/AdminNotFound";
+
+//=============== AUTHOR =====================
+import AuthorLayout from "./pages/author/AuthorLayout";
+import { AuthorDashboard } from "./pages/author/AuthorDashboard";
 
 function App() {
   const { articles, loading: articlesLoading } = useArticles();
@@ -57,6 +80,7 @@ function App() {
   if (loading) return <Loading />;
   return (
     <>
+      <ToastContainer />
       <Routes>
         {/* Layout pages ( with Header + Footer + Search) */}
         <Route element={<Layout allArticles={allArticles} />}>
@@ -106,8 +130,48 @@ function App() {
           <Route path="/health" element={<Health articles={allArticles} />} />
         </Route>
 
+        {/* LOGIN & REGISTER */}
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+
+        {/* ADMIN  */}
+        <Route path="/admin" element={<AdminLayout />}>
+          {/* default admin dashboard */}
+          <Route index element={<AdminDashboard />} />
+
+          {/* manage users */}
+          <Route path="users" element={<ManageUsers />} />
+          <Route path="users/:id" element={<UserDetails />} />
+
+          {/* manage articles/posts */}
+          <Route path="articles" element={<ManageArticles />} />
+          <Route path="articles/:id" element={<ArticleDetails />} />
+          <Route path="articles/new" element={<CreateArticle />} />
+          <Route path="articles/:id/edit" element={<UpdateArticle />} />
+
+          {/* Categories */}
+          <Route path="categories" element={<CategoriesList />} />
+          <Route path="categories/new" element={<CategoryCreate />} />
+          <Route path="categories/:id/edit" element={<CategoryEdit />} />
+
+          {/* logs, analytics, reports */}
+          {/* <Route path="reports" element={<Reports />} />
+          <Route path="analytics" element={<Analytics />} /> */}
+
+          {/* fallback for anything not found inside /admin */}
+          <Route path="*" element={<AdminNotFound />} />
+        </Route>
+
+        {/* AUTHOR */}
+        <Route path="/author" element={<AuthorLayout />}>
+          <Route index element={<AuthorDashboard />} />
+
+          {/* manage articles/posts */}
+          <Route path="articles" element={<ManageArticles />} />
+          <Route path="articles/:id" element={<ArticleDetails />} />
+          <Route path="articles/new" element={<CreateArticle />} />
+          <Route path="articles/:id/edit" element={<UpdateArticle />} />
+        </Route>
       </Routes>
     </>
   );
