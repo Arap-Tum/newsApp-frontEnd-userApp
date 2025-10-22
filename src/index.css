@@ -7,35 +7,38 @@
 
 /* CSS Variables */
 :root {
-  /* ===== Color Psychology ===== */
-  --primary: #2563eb;        /* Trust (blue) – Ideal for credibility in news */
-  --primary-hover: #1d4ed8;  /* Saturated blue for interactive elements */
-  --accent: #d62926;         /* Urgency/Attention (red) – Breaking news, alerts */
-  --accent-hover: #b91c1c;   /* Darker red for hover states */
-  --neutral-dark: #1f2937;    /* Seriousness (dark gray) – Headlines/text */
-  --neutral-mid: #4b5563;     /* Subdued contrast (gray) – Subheadings */
-  --neutral-light: #f3f4f6;   /* Background/readability (soft gray) */
-  --white: #ffffff;           /* Pure white for cards/text contrast */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent: #d62926;
+  --accent-hover: #b91c1c;
+  --neutral-dark: #1f2937;
+  --neutral-mid: #4b5563;
+  --neutral-light: #f3f4f6;
+  --white: #ffffff;
 
   /* ===== Gradients & Shadows ===== */
-  --gradient-brand: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%); /* Professional fade */
-  --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05);  /* Subtle depth */
-  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);   /* Cards/modals */
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    #1e40af 100%
+  ); /* Professional fade */
+  --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle depth */
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cards/modals */
   --shadow-heavy: 0 10px 15px rgba(0, 0, 0, 0.15); /* Headers/emphasis */
 
   /* ===== Typography ===== */
-  --font-serif: 'Merriweather', Georgia, serif;     /* Trust/readability (long articles) */
-  --font-sans: 'Inter', sans-serif;                 /* Modern UI (menus, buttons) */
-  --font-display: 'Playfair Display', serif;        /* Elegant headlines */
-  --font-mono: 'Roboto Mono', monospace;            /* Code/breaking news tickers */
+  --font-serif: "Merriweather", Georgia, serif; /* Trust/readability (long articles) */
+  --font-sans: "Inter", sans-serif; /* Modern UI (menus, buttons) */
+  --font-display: "Playfair Display", serif; /* Elegant headlines */
+  --font-mono: "Roboto Mono", monospace; /* Code/breaking news tickers */
 
   /* ===== Spacing & Transitions ===== */
-  --border-radius: 6px;       /* Balanced sharpness (not too playful) */
-  --transition-fast: 0.2s ease-in-out;  /* Hover effects */
+  --border-radius: 6px; /* Balanced sharpness (not too playful) */
+  --transition-fast: 0.2s ease-in-out; /* Hover effects */
   --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1); /* Fluid interactions */
 
   /* ===== Accessibility ===== */
-  --max-text-width: 65ch;     /* Optimal line length for reading */
+  --max-text-width: 65ch; /* Optimal line length for reading */
 }
 
 body {
@@ -46,21 +49,17 @@ body {
   margin: 0 auto;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: var(--font-display);
   color: var(--neutral-dark);
 }
 
-
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
-
-
-
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

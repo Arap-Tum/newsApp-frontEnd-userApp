@@ -1,0 +1,185 @@
+/* ✅ Categories Section Styles */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent: #d62926;
+  --accent-hover: #b91c1c;
+  --neutral-dark: #1f2937;
+  --neutral-mid: #4b5563;
+  --neutral-light: #f3f4f6;
+  --white: #ffffff;
+}
+
+/* ─── Base Layout ─────────────────────────────────────────── */
+.categories-section {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(31, 41, 55, 0.1);
+  padding: 24px;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.categories-section:hover {
+  box-shadow: 0 4px 14px rgba(31, 41, 55, 0.15);
+}
+
+/* ─── Section Header ───────────────────────────────────────── */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--neutral-dark);
+}
+
+.add-category-btn {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-category-btn:hover {
+  background: var(--primary-hover);
+}
+
+/* ─── Table Styling ───────────────────────────────────────── */
+.table-container {
+  overflow-x: auto;
+  border-top: 1px solid var(--neutral-light);
+}
+
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.table-header-row {
+  background: var(--neutral-light);
+}
+
+.table-header {
+  text-align: left;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--neutral-mid);
+  border-bottom: 1px solid var(--neutral-light);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.table-row {
+  border-bottom: 1px solid var(--neutral-light);
+  transition: background 0.2s ease;
+}
+
+.table-row:hover {
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.table-cell {
+  padding: 12px;
+  font-size: 0.95rem;
+  color: var(--neutral-dark);
+}
+
+.category-name {
+  font-weight: 500;
+  color: var(--neutral-dark);
+}
+
+.category-slug {
+  background: var(--neutral-light);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--neutral-mid);
+}
+
+/* ─── Actions ─────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-btn {
+  background: var(--neutral-light);
+  color: var(--neutral-dark);
+}
+
+.view-btn:hover {
+  background: var(--neutral-mid);
+  color: var(--white);
+}
+
+.edit-btn {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.edit-btn:hover {
+  background: var(--primary-hover);
+}
+
+.delete-btn {
+  background: var(--accent);
+  color: var(--white);
+}
+
+.delete-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* ─── Empty State ─────────────────────────────────────────── */
+.empty-row {
+  text-align: center;
+  background: var(--neutral-light);
+}
+
+.empty-message {
+  padding: 16px;
+  font-size: 0.95rem;
+  color: var(--neutral-mid);
+  text-align: center;
+}
+
+/* ─── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .add-category-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .table-cell {
+    padding: 10px 8px;
+  }
+}

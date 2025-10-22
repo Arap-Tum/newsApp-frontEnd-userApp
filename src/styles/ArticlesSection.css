@@ -1,0 +1,254 @@
+/* ─────────────────────────────── */
+/* 🎨 Color Variables */
+/* ─────────────────────────────── */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent: #d62926;
+  --accent-hover: #b91c1c;
+  --neutral-dark: #1f2937;
+  --neutral-mid: #4b5563;
+  --neutral-light: #f3f4f6;
+  --white: #ffffff;
+}
+
+/* ─────────────────────────────── */
+/* 🧱 Base Layout */
+/* ─────────────────────────────── */
+.articles-section {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.4s ease;
+}
+
+/* ─────────────────────────────── */
+/* 🧭 Section Header */
+/* ─────────────────────────────── */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--neutral-light);
+  padding-bottom: 0.8rem;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--neutral-dark);
+}
+
+.add-article-btn {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-article-btn:hover {
+  background: var(--primary-hover);
+}
+
+/* ─────────────────────────────── */
+/* 📋 Table Styling */
+/* ─────────────────────────────── */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.articles-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-width: 800px;
+}
+
+.articles-table thead {
+  background-color: var(--neutral-light);
+}
+
+.table-header {
+  text-align: left;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  color: var(--neutral-dark);
+  border-bottom: 2px solid var(--neutral-light);
+}
+
+.table-row {
+  border-bottom: 1px solid var(--neutral-light);
+  transition: background 0.2s ease;
+}
+
+.table-row:hover {
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.table-cell {
+  padding: 0.8rem 1rem;
+  color: var(--neutral-mid);
+  vertical-align: middle;
+}
+
+.title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.article-title-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.article-title-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* ─────────────────────────────── */
+/* 🏷️ Badges & Tags */
+/* ─────────────────────────────── */
+.article-badges {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+.badge-featured {
+  background: var(--primary);
+}
+
+.badge-trending {
+  background: var(--accent);
+}
+
+.status-tag {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-tag.verified {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--primary);
+}
+
+.status-tag.pending {
+  background: rgba(251, 191, 36, 0.15);
+  color: #b45309;
+}
+
+.status-tag.rejected {
+  background: rgba(214, 41, 38, 0.15);
+  color: var(--accent-hover);
+}
+
+/* ─────────────────────────────── */
+/* ⚙️ Actions */
+/* ─────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.view-btn {
+  background: var(--neutral-light);
+  color: var(--neutral-dark);
+}
+
+.view-btn:hover {
+  background: #e5e7eb;
+}
+
+.edit-btn {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.edit-btn:hover {
+  background: var(--primary-hover);
+}
+
+.delete-btn {
+  background: var(--accent);
+  color: var(--white);
+}
+
+.delete-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* ─────────────────────────────── */
+/* 💤 Empty State */
+/* ─────────────────────────────── */
+.empty-row .empty-message {
+  text-align: center;
+  color: var(--neutral-mid);
+  font-style: italic;
+  padding: 1rem;
+}
+
+/* ─────────────────────────────── */
+/* 📱 Responsive */
+/* ─────────────────────────────── */
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .articles-table {
+    font-size: 0.9rem;
+    min-width: 600px;
+  }
+
+  .add-article-btn {
+    width: 100%;
+  }
+}
+
+/* ─────────────────────────────── */
+/* ✨ Animations */
+/* ─────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,143 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent: #d62926;
+  --accent-hover: #b91c1c;
+  --neutral-dark: #1f2937;
+  --neutral-mid: #4b5563;
+  --neutral-light: #f3f4f6;
+  --white: #ffffff;
+}
+
+/* ──────────────────────────────── */
+/* 🧭 Dashboard Layout */
+/* ──────────────────────────────── */
+.admin-dashboard {
+  min-height: 100vh;
+  background: var(--neutral-light);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-family: "Inter", sans-serif;
+  color: var(--neutral-dark);
+}
+
+/* ──────────────────────────────── */
+/* 🏷 Header */
+/* ──────────────────────────────── */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* ──────────────────────────────── */
+/* 📊 Stats Section */
+/* ──────────────────────────────── */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.stat-card.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary-hover);
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.stat-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* ──────────────────────────────── */
+/* 📂 Section Area */
+/* ──────────────────────────────── */
+.dashboard-section {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  flex-grow: 1;
+  transition: 0.3s ease;
+}
+
+/* ──────────────────────────────── */
+/* 💤 Empty State */
+/* ──────────────────────────────── */
+.empty-state {
+  text-align: center;
+  color: var(--neutral-mid);
+  font-size: 1.1rem;
+  padding: 3rem 0;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ──────────────────────────────── */
+/* 📱 Responsive Design */
+/* ──────────────────────────────── */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-section {
+    padding: 1.2rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+}
+
+/* ──────────────────────────────── */
+/* ✨ Animations */
+/* ──────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

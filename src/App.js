@@ -39,13 +39,10 @@ import Layout from "./Layout";
 import { CreateArticle } from "./pages/crud/CreateArticle";
 import { ManageArticles } from "./pages/crud/ManageArticles";
 import { UpdateArticle } from "./pages/crud/UpdateArticle";
-import { CategoriesList } from "./pages/crud/CategoriesList";
-import { CategoryCreate } from "./pages/crud/CategoryCreate";
-import { CategoryEdit } from "./pages/crud/CategoryEdit";
+
 import { ArticleDetails } from "./pages/crud/ArticleDetails";
 
 // ================== ADMIN ============================
-import { ManageUsers } from "./pages/admin/ManageUsers";
 import { UserDetails } from "./pages/admin/UserDetails";
 import AdminLayout from "./pages/admin/AdminLyout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
@@ -140,19 +137,12 @@ function App() {
           <Route index element={<AdminDashboard />} />
 
           {/* manage users */}
-          <Route path="users" element={<ManageUsers />} />
           <Route path="users/:id" element={<UserDetails />} />
 
           {/* manage articles/posts */}
-          <Route path="articles" element={<ManageArticles />} />
           <Route path="articles/:id" element={<ArticleDetails />} />
           <Route path="articles/new" element={<CreateArticle />} />
           <Route path="articles/:id/edit" element={<UpdateArticle />} />
-
-          {/* Categories */}
-          <Route path="categories" element={<CategoriesList />} />
-          <Route path="categories/new" element={<CategoryCreate />} />
-          <Route path="categories/:id/edit" element={<CategoryEdit />} />
 
           {/* logs, analytics, reports */}
           {/* <Route path="reports" element={<Reports />} />
