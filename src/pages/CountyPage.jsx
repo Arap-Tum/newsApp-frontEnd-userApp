@@ -1,59 +1,59 @@
-import React, { useMemo } from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-import "../styles/newsPge.css";
+import React, { useMemo, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
+import { formatDate } from "../utils/formatDate"; // make sure this exists
 
-export const GlobalNews = ({ articles }) => {
+export const CountyPage = ({ articles }) => {
+  const { countySlug } = useParams();
   const [page, setPage] = useState(1);
   const articlesPerPage = 15;
 
-  // ✅ 1. Sorting function
-  const sortArticlesByDate = (data) => {
-    if (!Array.isArray(data)) return [];
-    return [...data].sort(
+  // ✅ Format county name nicely (e.g. "nandi" → "Nandi")
+  const countyName = countySlug.charAt(0).toUpperCase() + countySlug.slice(1);
+
+  // ✅ Filter articles that belong to this county
+  const filteredArticles = useMemo(() => {
+    return articles.filter(
+      (article) =>
+        article.county?.name?.toLowerCase() === countyName.toLowerCase()
+    );
+  }, [articles, countyName]);
+
+  // ✅ Sort newest first
+  const sortedArticles = useMemo(() => {
+    return [...filteredArticles].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
-  };
+  }, [filteredArticles]);
 
-  // ✅ 2. Sort once using useMemo for performance
-  const sortedArticles = useMemo(
-    () => sortArticlesByDate(articles),
-    [articles]
-  );
-
-  // ✅ 3. Paginate the sorted result
-  const startIndex = (page - 1) * articlesPerPage;
-  const paginatedResults = sortedArticles.slice(
-    startIndex,
-    startIndex + articlesPerPage
-  );
-
+  // ✅ Pagination
   const totalPages = Math.ceil(sortedArticles.length / articlesPerPage);
+  const paginatedResults = sortedArticles.slice(
+    (page - 1) * articlesPerPage,
+    page * articlesPerPage
+  );
 
-  // ✅ 4. Safe date formatting
-  const formatDate = (date) => {
-    try {
-      return new Date(date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch {
-      return "Unknown date";
-    }
-  };
-
+  // ✅ If no articles found
   if (sortedArticles.length === 0) {
-    return <p className="news__empty">Articles not found.</p>;
+    return (
+      <main className="news-page">
+        <section className="news">
+          <div className="news__header">
+            <h2 className="news__title">{countyName} News</h2>
+            <span className="news__count">0 Articles</span>
+          </div>
+          <p className="news__empty">No news available for this county yet.</p>
+        </section>
+      </main>
+    );
   }
 
+  // ✅ Render same structure as category
   return (
     <main className="news-page">
       <section className="news">
         <div className="news__header">
-          <h2 className="news__title">Latest News</h2>
+          <h2 className="news__title">{countyName} News</h2>
           <span className="news__count">{sortedArticles.length} Articles</span>
         </div>
 

@@ -1,4 +1,3 @@
-import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { Route, Routes } from "react-router-dom";
@@ -21,12 +20,6 @@ import {
 } from "./utils/normalizeArticles";
 
 import { GlobalNews } from "./pages/GlobalNews";
-import { Politics } from "./pages/Politics";
-import { Technology } from "./pages/Technology";
-import { Sports } from "./pages/Sports";
-import { Entertainment } from "./pages/Entertainment";
-import { Health } from "./pages/Health";
-import { Business } from "./pages/Business";
 
 import { Local } from "./pages/Local";
 import { Login } from "./pages/auth/Login";
@@ -53,25 +46,18 @@ import AuthorLayout from "./pages/author/AuthorLayout";
 import { AuthorDashboard } from "./pages/author/AuthorDashboard";
 
 import { useVerifiedArticles } from "./hooks/useArticleService";
-import { useEffect } from "react";
+import { CategoryPage } from "./pages/CategoryPage";
+import { CountyPage } from "./pages/CountyPage";
 
 function App() {
   const { data: articles = [], isLoading: articlesLoading } =
     useVerifiedArticles();
-  useEffect(() => {
-    if (articles) {
-      console.log("✅ Verified articles after fetch:", articles);
-    }
-  }, [articles]);
-
-  console.log("🟡 Articles (first render):", articles);
 
   const { categories, loading: categoriesLoading } = useCategories();
   const { news: globalNews, loading: globalLoading } = useGlobalNews();
   const { articles: scrapedArticles, loading: scrapedLoading } = useScrapped();
   // const { news: externalNews, loading: externalLoading } = useExternalNews();
 
-  console.log("Verified articles", articles);
   const loading =
     articlesLoading || categoriesLoading || globalLoading || scrapedLoading;
 
@@ -104,6 +90,7 @@ function App() {
               <Home
                 articles={articles}
                 globalNews={globalArticles}
+                scrapedNews={scrapedNews}
                 categories={categories}
                 allArticles={allArticles} // ✅ pass normalized merged list
                 loading={loading}
@@ -125,24 +112,15 @@ function App() {
             path="/global"
             element={<GlobalNews articles={globalArticles} />}
           />
+
           <Route
-            path="/politics"
-            element={<Politics articles={kenyanNews} />}
+            path="/county/:countySlug"
+            element={<CountyPage articles={articles} />}
           />
           <Route
-            path="/business"
-            element={<Business articles={allArticles} />}
+            path="/category/:categorySlug"
+            element={<CategoryPage articles={articles} />}
           />
-          <Route
-            path="/technology"
-            element={<Technology articles={allArticles} />}
-          />
-          <Route path="/sports" element={<Sports articles={allArticles} />} />
-          <Route
-            path="/entertainment"
-            element={<Entertainment articles={allArticles} />}
-          />
-          <Route path="/health" element={<Health articles={allArticles} />} />
         </Route>
 
         {/* LOGIN & REGISTER */}

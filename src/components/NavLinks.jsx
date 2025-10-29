@@ -2,9 +2,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react"; // or any icon library
+import { useArticleCategories } from "../hooks/useCattegoriesService";
+import { useArticleCounties } from "../hooks/useCounties";
 
 export const NavLinks = ({ isSidebar }) => {
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  const { data: categories } = useArticleCategories();
+  const { data: counties } = useArticleCounties();
+
+  // console.log("Categories ", categories);
 
   const handleToggle = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
@@ -18,6 +25,8 @@ export const NavLinks = ({ isSidebar }) => {
       <li>
         <Link to="/local">Kenya</Link>
       </li>
+
+      {/* ✅ Counties Dropdown */}
       <li>
         <button
           className="dropdown-toggle"
@@ -37,30 +46,21 @@ export const NavLinks = ({ isSidebar }) => {
           )}
         </button>
         <ul className={`dropdown ${openDropdown === "counties" ? "open" : ""}`}>
-          <li>
-            <Link to="/nandi">Nandi</Link>
-          </li>
-          <li>
-            <Link to="/turkana">Turkana</Link>
-          </li>
-          <li>
-            <Link to="/baringo">Baringo</Link>
-          </li>
-          <li>
-            <Link to="/bomet">Bomet</Link>
-          </li>
+          {(counties || []).map((county) => (
+            <li key={county.id || county.name}>
+              <Link to={`/county/${county.name.toLowerCase()}`}>
+                {county.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </li>
+
       <li>
-        <Link to="/global">General</Link>
-      </li>
-      <li>
-        <Link to="/politics">Politics</Link>
-      </li>
-      <li>
-        <Link to="/business">Business</Link>
+        <Link to="/global">Global</Link>
       </li>
 
+      {/* ✅ Categories Dropdown */}
       <li>
         <button
           className="dropdown-toggle"
@@ -80,18 +80,13 @@ export const NavLinks = ({ isSidebar }) => {
           )}
         </button>
         <ul className={`dropdown ${openDropdown === "more" ? "open" : ""}`}>
-          <li>
-            <Link to="/technology">Technology</Link>
-          </li>
-          <li>
-            <Link to="/sports">Sports</Link>
-          </li>
-          <li>
-            <Link to="/entertainment">Entertainment</Link>
-          </li>
-          <li>
-            <Link to="/health">Health</Link>
-          </li>
+          {(categories || []).map((category) => (
+            <li key={category.id || category.name}>
+              <Link to={`/category/${category.name.toLowerCase()}`}>
+                {category.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </li>
     </ul>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import "../../styles/auth.css";
 import { useAuth } from "../../context/AuthConttext";
 import { useMutation } from "@tanstack/react-query";
 import { login as loginUser } from "../../api/auth";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 
-import "../../styles/loagin&register.css";
 export const Login = () => {
   const [form, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -52,39 +52,39 @@ export const Login = () => {
     loginMutation.mutate(form);
   };
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h2 className="auth-title">Login</h2>
+    <div className="login-page">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2 className="login-form__title">Login</h2>
 
-        <div className="form-group">
-          <label className="form-label">Email</label>
+        <div className="login-form__field">
+          <label className="login-form__label">Email</label>
           <input
             type="email"
             name="email"
-            className="form-input"
+            className="login-form__input"
             value={form.email}
             onChange={handleChange}
             required
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Password</label>
+        <div className="login-form__field">
+          <label className="login-form__label">Password</label>
           <input
             type="password"
             name="password"
-            className="form-input"
+            className="login-form__input"
             value={form.password}
             onChange={handleChange}
             required
           />
         </div>
 
-        <button type="submit" className="auth-button">
+        <button type="submit" className="login-form__button">
           <span>Login</span>
         </button>
 
-        <p className="auth-link">
+        <p className="login-form__redirect">
           Don’t have an account? <Link to="/register">Register</Link>
         </p>
       </form>

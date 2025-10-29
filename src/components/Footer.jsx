@@ -1,97 +1,142 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Twitter, Facebook, Instagram } from "lucide-react";
+import { Facebook, Twitter, Instagram, Mail } from "lucide-react";
+import { useArticleCategories } from "../hooks/useCattegoriesService";
+import { useArticleCounties } from "../hooks/useCounties";
 import "../styles/footer.css";
-
 export const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const { data: categories } = useArticleCategories();
+  const { data: counties } = useArticleCounties();
 
-  const TwitterIcon = () => <Twitter size={20} />;
-  const FacebookIcon = () => <Facebook size={20} />;
-  const InstagramIcon = () => <Instagram size={20} />;
   return (
-    <footer className="site-footer">
-      <div className="footer-grid">
-        {/* Branding */}
-        <div className="footer-branding">
-          <h2 className="footer-logo">THE PHANTOM NEWS</h2>
-          <p className="footer-tagline">get them here.</p>
+    <footer className="footer">
+      {/* ─── TOP SECTION ───────────────────────────── */}
+      <div className="footer__top">
+        {/* ── Branding Section ── */}
+        <div className="footer__brand">
+          <h2 className="footer__logo">The Rift News</h2>
+          <p className="footer__tagline">
+            Reliable stories. Authentic voices. The pulse of the Rift.
+          </p>
         </div>
 
-        {/* Navigation */}
-        <nav className="footer-navigation">
-          <h3 className="footer-heading">Sections</h3>
-          <ul className="footer-links">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/global">Global</Link>
-            </li>
-            <li>
-              <Link to="/politics">Politics</Link>
-            </li>
-            <li>
-              <Link to="/business">Business</Link>
-            </li>
-            <li>
-              <Link to="/technology">Technology</Link>
-            </li>
-            <li>
-              <Link to="/sports">Sports</Link>
-            </li>
-            <li>
-              <Link to="/entertainment">Entertainment</Link>
-            </li>
-            <li>
-              <Link to="/health">Health</Link>
-            </li>
-
-            <li>
-              <Link to="/health">Ukraine</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* Legal */}
-        <nav className="footer-legal">
-          <h3 className="footer-heading">Legal</h3>
-          <ul className="footer-links">
-            <li>
-              <a href="/privacy">Privacy Policy</a>
-            </li>
-            <li>
-              <a href="/terms">Terms of Use</a>
-            </li>
-            <li>
-              <a href="/cookies">Cookie Policy</a>
-            </li>
-          </ul>
-        </nav>
-
-        {/* Newsletter */}
-        <div className="footer-newsletter">
-          <h3 className="footer-heading">Stay Informed</h3>
-          <div className="newsletter-form">
-            <input type="email" placeholder="Your email" />
-            <button type="button">Subscribe</button>
+        {/* ── Navigation Columns ── */}
+        <nav className="footer__nav">
+          {/* Explore Column */}
+          <div className="footer__nav-column">
+            <h3 className="footer__nav-title">Explore</h3>
+            <ul className="footer__nav-list">
+              <li>
+                <Link to="/" className="footer__nav-link">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/local" className="footer__nav-link">
+                  Kenya
+                </Link>
+              </li>
+              <li>
+                <Link to="/global" className="footer__nav-link">
+                  Global
+                </Link>
+              </li>
+            </ul>
           </div>
+
+          {/* Counties Column */}
+          <div className="footer__nav-column">
+            <h3 className="footer__nav-title">Counties</h3>
+            <ul className="footer__nav-list">
+              {(counties || []).slice(0, 5).map((county) => (
+                <li key={county.id || county.name}>
+                  <Link
+                    to={`/county/${county.name.toLowerCase()}`}
+                    className="footer__nav-link"
+                  >
+                    {county.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Categories Column */}
+          <div className="footer__nav-column">
+            <h3 className="footer__nav-title">Categories</h3>
+            <ul className="footer__nav-list">
+              {(categories || []).slice(0, 5).map((category) => (
+                <li key={category.id || category.name}>
+                  <Link
+                    to={`/category/${category.name.toLowerCase()}`}
+                    className="footer__nav-link"
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
+        {/* ── Contact / Social ── */}
+        <div className="footer__contact">
+          <h3 className="footer__nav-title">Connect</h3>
+          <ul className="footer__social-list">
+            <li>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                className="footer__social-link"
+              >
+                <Facebook size={20} />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noreferrer"
+                className="footer__social-link"
+              >
+                <Twitter size={20} />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                className="footer__social-link"
+              >
+                <Instagram size={20} />
+              </a>
+            </li>
+            <li>
+              <a
+                href="mailto:contact@theriftnews.com"
+                className="footer__social-link"
+              >
+                <Mail size={20} />
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="footer-bottom">
-        <p>© {currentYear} THE PHANTOM NEWS. All rights reserved.</p>
-        <div className="social-links">
-          <a href="#f" aria-label="Twitter">
-            <TwitterIcon />
-          </a>
-          <a href="#f" aria-label="Facebook">
-            <FacebookIcon />
-          </a>
-          <a href="#int" aria-label="Instagram">
-            <InstagramIcon />
-          </a>
+      {/* ─── BOTTOM SECTION ───────────────────────────── */}
+      <div className="footer__bottom">
+        <p className="footer__copyright">
+          © {new Date().getFullYear()} The Rift News. All rights reserved.
+        </p>
+        <div className="footer__legal-links">
+          <Link to="/privacy" className="footer__legal-link">
+            Privacy Policy
+          </Link>
+          <Link to="/terms" className="footer__legal-link">
+            Terms of Service
+          </Link>
         </div>
       </div>
     </footer>

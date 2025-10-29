@@ -1,29 +1,34 @@
-import React, { useMemo } from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-import "../styles/newsPge.css";
+import React, { useMemo, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 
-export const GlobalNews = ({ articles }) => {
+export const CategoryPage = ({ articles = [] }) => {
+  const { categorySlug } = useParams();
   const [page, setPage] = useState(1);
   const articlesPerPage = 15;
 
-  // ✅ 1. Sorting function
-  const sortArticlesByDate = (data) => {
-    if (!Array.isArray(data)) return [];
-    return [...data].sort(
+  // ✅ Format category name safely
+  const categoryName = useMemo(() => {
+    if (!categorySlug) return "";
+    return categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
+  }, [categorySlug]);
+
+  // ✅ Filter articles that belong to this category
+  const filteredArticles = useMemo(() => {
+    return (articles || []).filter(
+      (article) =>
+        article.category?.name?.toLowerCase() === categoryName.toLowerCase()
+    );
+  }, [articles, categoryName]);
+
+  // ✅ Sort newest first
+  const sortedArticles = useMemo(() => {
+    return [...filteredArticles].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
-  };
+  }, [filteredArticles]);
 
-  // ✅ 2. Sort once using useMemo for performance
-  const sortedArticles = useMemo(
-    () => sortArticlesByDate(articles),
-    [articles]
-  );
-
-  // ✅ 3. Paginate the sorted result
+  // ✅ Paginate
   const startIndex = (page - 1) * articlesPerPage;
   const paginatedResults = sortedArticles.slice(
     startIndex,
@@ -32,7 +37,6 @@ export const GlobalNews = ({ articles }) => {
 
   const totalPages = Math.ceil(sortedArticles.length / articlesPerPage);
 
-  // ✅ 4. Safe date formatting
   const formatDate = (date) => {
     try {
       return new Date(date).toLocaleDateString("en-US", {
@@ -46,14 +50,20 @@ export const GlobalNews = ({ articles }) => {
   };
 
   if (sortedArticles.length === 0) {
-    return <p className="news__empty">Articles not found.</p>;
+    return (
+      <main className="news-page">
+        <section className="news">
+          <h2 className="news__title">No articles found for {categoryName}</h2>
+        </section>
+      </main>
+    );
   }
 
   return (
     <main className="news-page">
       <section className="news">
         <div className="news__header">
-          <h2 className="news__title">Latest News</h2>
+          <h2 className="news__title">{categoryName} News</h2>
           <span className="news__count">{sortedArticles.length} Articles</span>
         </div>
 

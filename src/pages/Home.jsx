@@ -5,7 +5,13 @@ import { TrendingNews } from "../components/TrendingNews";
 import { CategorySec } from "../components/CategorySec";
 import { NewsList } from "../components/NewsList";
 
-export const Home = ({ articles, loading, categories, globalNews }) => {
+export const Home = ({
+  scrapedNews,
+  articles,
+  loading,
+  categories,
+  globalNews,
+}) => {
   if (loading) return <Loading />;
   if (articles.length === 0) {
     return (
@@ -15,10 +21,10 @@ export const Home = ({ articles, loading, categories, globalNews }) => {
     );
   }
 
-  console.log("gLOBAL ARTICLES: ", globalNews);
+  // console.log("gLOBAL ARTICLES: ", globalNews);
 
   // Pre-filter or slice data for each section
-  const heroArticles = articles.slice(0, 10);
+  const heroArticles = scrapedNews.slice(0, 10);
   const trendingArticles = articles.filter((a) => a.isTrending);
   const categoryArticles = articles;
   const listArticles = globalNews.slice(0, 10); // Could also be filtered

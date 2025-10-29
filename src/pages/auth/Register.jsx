@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import "../../styles/auth.css";
 import { useAuth } from "../../context/AuthConttext";
 import { useMutation } from "@tanstack/react-query";
 import { register as registerUser } from "../../api/auth";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import "../../styles/loagin&register.css";
 
 export const Register = () => {
   const [form, setFormData] = useState({ email: "", password: "" });
@@ -52,50 +52,51 @@ export const Register = () => {
     registerMutation.mutate(form);
   };
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h2 className="auth-title">Register</h2>
-        <div className="form-group">
-          <label className="form-label">Username:</label>
+    <div className="register-page">
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h2 className="register-form__title">Register</h2>
+
+        <div className="register-form__field">
+          <label className="register-form__label">Username</label>
           <input
             type="text"
             name="username"
-            className="form-input"
+            className="register-form__input"
             value={form.name}
             onChange={handleChange}
             required
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Email:</label>
+        <div className="register-form__field">
+          <label className="register-form__label">Email</label>
           <input
             type="email"
             name="email"
-            className="form-input"
+            className="register-form__input"
             value={form.email}
             onChange={handleChange}
             required
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Password:</label>
+        <div className="register-form__field">
+          <label className="register-form__label">Password</label>
           <input
             type="password"
             name="password"
-            className="form-input"
+            className="register-form__input"
             value={form.password}
             onChange={handleChange}
             required
           />
         </div>
 
-        <button type="submit" className="auth-button">
+        <button type="submit" className="register-form__button">
           <span>Register</span>
         </button>
 
-        <p className="auth-link">
+        <p className="register-form__redirect">
           Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>

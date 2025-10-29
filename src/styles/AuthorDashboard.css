@@ -1,0 +1,103 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent: #d62926;
+  --accent-hover: #b91c1c;
+  --neutral-dark: #1f2937;
+  --neutral-mid: #4b5563;
+  --neutral-light: #f3f4f6;
+  --white: #ffffff;
+}
+
+/* ===============================
+   AUTHOR DASHBOARD PAGE STYLES
+================================ */
+.author-dashboard {
+  min-height: 100vh;
+  background-color: var(--neutral-light);
+  color: var(--neutral-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* ===== HEADER ===== */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  display: flex;
+  max-width: 700px;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--neutral-dark);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  font-size: 1rem;
+  color: var(--neutral-mid);
+  line-height: 1.6;
+}
+
+/* ===== CONTENT ===== */
+.dashboard-content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== STATES ===== */
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.loading-state p {
+  color: var(--neutral-mid);
+}
+
+.error-state p {
+  color: var(--accent-hover);
+}
+
+.empty-state p {
+  color: var(--neutral-mid);
+}
+
+/* ===== BUTTON (for empty state only) ===== */
+.create-article-btn {
+  margin-top: 1.5rem;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.create-article-btn:hover {
+  background: var(--primary-hover);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .dashboard-title {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .author-dashboard {
+    padding: 2rem 1rem;
+  }
+}

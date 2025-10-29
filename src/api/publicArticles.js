@@ -21,7 +21,7 @@ export async function fetchVerifiedArticles() {
       );
     }
 
-    console.log("✅ Verified articles fetched successfully:", data);
+    // console.log("✅ Verified articles fetched successfully:", data);
 
     return data;
   } catch (error) {

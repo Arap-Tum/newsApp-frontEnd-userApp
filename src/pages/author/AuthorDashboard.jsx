@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/AuthorDashboard.css";
 import { useAuth } from "../../context/AuthConttext";
 import { useMyArticles } from "../../hooks/useArticleService";
 import { ArticlesSection } from "../../components/author/ArticleSection";
