@@ -15,11 +15,13 @@ export const Home = ({ articles, loading, categories, globalNews }) => {
     );
   }
 
+  console.log("gLOBAL ARTICLES: ", globalNews);
+
   // Pre-filter or slice data for each section
   const heroArticles = articles.slice(0, 10);
   const trendingArticles = articles.filter((a) => a.isTrending);
   const categoryArticles = articles;
-  const listArticles = globalNews.politics.slice(0, 10); // Could also be filtered
+  const listArticles = globalNews.slice(0, 10); // Could also be filtered
 
   return (
     <main className="news-home">

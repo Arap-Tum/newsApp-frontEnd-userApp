@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useMemo, useState } from "react";
-import { CalendarDays, Share2, Twitter, Facebook } from "lucide-react";
+import { CalendarDays, User, Share2, Twitter, Facebook } from "lucide-react";
 import { Loading } from "../components/Loading";
 import "../styles/ArticlePage.css";
 
@@ -8,10 +8,10 @@ export const ArticlePage = ({ articles }) => {
   const { slug } = useParams();
   const [showFull, setShowFull] = useState(false);
 
-  // Ensure safe array
-  const safeArticles = Array.isArray(articles) ? articles : [];
+  const safeArticles = useMemo(() => {
+    return Array.isArray(articles) ? articles : [];
+  }, [articles]);
 
-  // Find the article by slug
   const article = useMemo(() => {
     return safeArticles.find((art) => art.slug === slug);
   }, [safeArticles, slug]);
@@ -32,10 +32,14 @@ export const ArticlePage = ({ articles }) => {
     );
   }
 
-  // Helpers
+  // === Utility Helpers ===
   const formatDate = (date) => {
     try {
-      return new Date(date).toLocaleDateString();
+      return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
     } catch {
       return "Unknown date";
     }
@@ -46,42 +50,59 @@ export const ArticlePage = ({ articles }) => {
     return text.split(/\n|\.(?=\s[A-Z])/).filter((p) => p.trim().length > 0);
   };
 
-  // Safe field fallbacks
+  // === Unified Safe Access ===
   const categoryName =
     typeof article.category === "string"
       ? article.category
       : article.category?.name || "General";
 
-  const sourceName = article.sourceName || "Unknown Source";
-  const imageUrl = article.imageUrl || article.image || null;
-  const content = article.content || article.excerpt || "No content available.";
+  const sourceName = article.sourceName || "Local Database";
+  const authorName =
+    article.author?.name ||
+    article.authorName ||
+    article.author ||
+    (sourceName !== "Local Database" ? sourceName : "Anonymous Author");
 
+  const imageUrl = article.imageUrl || article.image || null;
+  const subtitle = article.subtitle || null;
+  const excerpt = article.excerpt || "";
+  const content = article.content || article.description || "";
+  const createdAt = article.createdAt || article.publishedAt || new Date();
+
+  // === JSX ===
   return (
     <main className="article-layout">
       {/* === Article Section === */}
       <article className="article">
         {/* Category Badge */}
-        <span className="article__category">{categoryName}</span>
+        {categoryName && (
+          <span className="article__category">{categoryName}</span>
+        )}
 
-        {/* Title */}
+        {/* Title + Subtitle */}
         <h1 className="article__title">{article.title}</h1>
+        {subtitle && <h2 className="article__subtitle">{subtitle}</h2>}
 
         {/* Metadata */}
         <div className="article__meta">
           <span className="article__date">
             <CalendarDays className="icon" />
-            {formatDate(article.createdAt || article.publishedAt)}
+            {formatDate(createdAt)}
+          </span>
+          <span className="article__author">
+            <User className="icon" /> {authorName}
           </span>
           <span className="article__source">{sourceName}</span>
         </div>
 
-        {/* Image */}
+        {/* Main Image */}
         {imageUrl && (
           <figure className="article__image-wrapper">
             <img
               src={imageUrl}
               alt={article.title}
               className="article__image"
+              loading="lazy"
             />
             {sourceName && (
               <figcaption className="article__caption">
@@ -91,15 +112,18 @@ export const ArticlePage = ({ articles }) => {
           </figure>
         )}
 
+        {/* Excerpt (for local articles) */}
+        {excerpt && <p className="article__excerpt">{excerpt}</p>}
+
         {/* Content */}
         <section className="article__content">
           {splitIntoParagraphs(content)
-            .slice(0, showFull ? undefined : 3)
+            .slice(0, showFull ? undefined : 4)
             .map((p, idx) => (
               <p key={idx}>{p}</p>
             ))}
 
-          {!showFull && splitIntoParagraphs(content).length > 3 && (
+          {!showFull && splitIntoParagraphs(content).length > 4 && (
             <button onClick={() => setShowFull(true)} className="btn-readmore">
               Read More
             </button>

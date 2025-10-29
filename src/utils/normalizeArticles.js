@@ -54,12 +54,13 @@ export function normalizeLocalArticle(article) {
     imageUrl: article.imageUrl || null,
     category: article.category ? { name: article.category.name } : null,
     verificationStatus: article.verificationStatus,
+    author: article.author ? { name: article.author.name } : null,
     verifiedAt: article.verifiedAt || null,
     isTrending: article.isTrending,
     isFeatured: article.isFeatured,
     createdAt: new Date(article.createdAt),
     updatedAt: new Date(article.updatedAt),
     sourceUrl: null,
-    sourceName: "Local Database",
+    sourceName: "Rift News",
   };
 }

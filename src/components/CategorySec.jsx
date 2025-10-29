@@ -21,14 +21,18 @@ export const CategorySec = ({ articles = [], categories = [] }) => {
         <ul className="category-list">
           {categories.map((category) => (
             <li key={category.id}>
-             <button
-  type="button"
-  className={`category-item ${selectedCategoryId === category.id ? "active" : ""}`}
-  aria-current={selectedCategoryId === category.id ? "true" : undefined}
-  onClick={() => setSelectedCategoryId(category.id)}
->
-  {category.name}
-</button>
+              <button
+                type="button"
+                className={`category-item ${
+                  selectedCategoryId === category.id ? "active" : ""
+                }`}
+                aria-current={
+                  selectedCategoryId === category.id ? "true" : undefined
+                }
+                onClick={() => setSelectedCategoryId(category.id)}
+              >
+                {category.name}
+              </button>
             </li>
           ))}
         </ul>
@@ -44,7 +48,7 @@ export const CategorySec = ({ articles = [], categories = [] }) => {
             {filteredArticles.map((article) => (
               <li key={article.id}>
                 <Link
-                  to={`/articles/${article.id}`}
+                  to={`/articles/${article.slug}`}
                   className="category-article-card"
                   style={{
                     backgroundImage: `url(${

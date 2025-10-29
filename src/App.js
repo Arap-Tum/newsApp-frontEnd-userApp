@@ -79,15 +79,17 @@ function App() {
   /*Make it have a common element */
 
   const localArticles = articles.map(normalizeLocalArticle);
-  const politicsArticles =
+
+  const newsApiArticles =
     globalNews?.politics?.map(normalizeNewsApiArticle) || [];
 
-  //addition
-  const kenyanNews = scrapedArticles.map(normalizeScrapedArticle);
+  const scrapedNews = scrapedArticles.map(normalizeScrapedArticle);
 
-  const allArticles = [...localArticles, ...politicsArticles, ...kenyanNews];
+  const allArticles = [...localArticles, ...newsApiArticles, ...scrapedNews];
 
-  const globalArticles = [...politicsArticles];
+  const globalArticles = [...newsApiArticles];
+
+  const kenyanNews = [...localArticles, ...scrapedNews];
 
   if (loading) return <Loading />;
   return (
@@ -101,7 +103,7 @@ function App() {
             element={
               <Home
                 articles={articles}
-                globalNews={globalNews}
+                globalNews={globalArticles}
                 categories={categories}
                 allArticles={allArticles} // ✅ pass normalized merged list
                 loading={loading}
@@ -125,7 +127,7 @@ function App() {
           />
           <Route
             path="/politics"
-            element={<Politics articles={politicsArticles} />}
+            element={<Politics articles={kenyanNews} />}
           />
           <Route
             path="/business"

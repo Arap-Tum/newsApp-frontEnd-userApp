@@ -18,6 +18,17 @@ export const NewsList = ({ articles }) => {
     }
   }, [articles]);
 
+  const formatDate = (date) => {
+    try {
+      return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch {
+      return "Unknown date";
+    }
+  };
   return (
     <section className="news">
       <div className="news__header">
@@ -28,10 +39,10 @@ export const NewsList = ({ articles }) => {
       <div className="news__grid">
         {sortedArticles.map((article, index) => (
           <article key={index} className="news-card">
-            {article.urlToImage && (
+            {article.imageUrl && (
               <div className="news-card__image-wrapper">
                 <img
-                  src={article.urlToImage}
+                  src={article.imageUrl || "/placeholder.jpg"}
                   alt={article.title}
                   className="news-card__image"
                 />
@@ -46,7 +57,7 @@ export const NewsList = ({ articles }) => {
               <div className="news-card__meta">
                 <span className="news-card__date">
                   <CalendarDays className="news-card__icon" />
-                  {new Date(article.publishedAt).toLocaleDateString()}
+                  {formatDate(article.createdAt)}
                 </span>
                 {article.source?.name && (
                   <span className="news-card__source">
@@ -65,7 +76,9 @@ export const NewsList = ({ articles }) => {
               </p> */}
 
               <Link
-                to={`/articles/${encodeURIComponent(article.url)}`}
+                to={`/articles/${encodeURIComponent(
+                  article.slug || article.id
+                )}`}
                 className="news-card__link"
               >
                 Read More →

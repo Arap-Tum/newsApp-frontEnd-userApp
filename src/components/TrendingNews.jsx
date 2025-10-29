@@ -1,16 +1,16 @@
-import '../styles/TrendingNews.css';
-import { CalendarDays, User } from 'lucide-react';
-import { Link } from 'react-router-dom'; // or 'next/link' if Next.js
-import { useMemo } from 'react';
+import "../styles/TrendingNews.css";
+import { CalendarDays, User } from "lucide-react";
+import { Link } from "react-router-dom"; // or 'next/link' if Next.js
+import { useMemo } from "react";
 
 export const TrendingNews = ({ articles }) => {
   // Only trending articles
-const trendingArticles = useMemo(() => {
-  return articles
-    .filter(article => article.isTrending)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 8);
-}, [articles]);
+  const trendingArticles = useMemo(() => {
+    return articles
+      .filter((article) => article.isTrending)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 8);
+  }, [articles]);
 
   return (
     <section className="trending-news-section">
@@ -22,13 +22,15 @@ const trendingArticles = useMemo(() => {
       {/* Trending Articles */}
       <div className="trending-articles-container">
         {trendingArticles.length > 0 ? (
-          trendingArticles.map(article => (
+          trendingArticles.map((article) => (
             <Link
-              to={`/articles/${article.id}`}
+              to={`/articles/${article.slug}`}
               key={article.id}
               className="trending-article-card"
               style={{
-                backgroundImage: `url(${article.imageUrl || "/placeholder.jpg"})`,
+                backgroundImage: `url(${
+                  article.imageUrl || "/placeholder.jpg"
+                })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -46,8 +48,10 @@ const trendingArticles = useMemo(() => {
                 )}
 
                 {/* Title */}
-                 <h3 className="trending-article-title">{article.title.slice(0, 100)}</h3>
-              
+                <h3 className="trending-article-title">
+                  {article.title.slice(0, 100)}
+                </h3>
+
                 {/* Meta Info */}
                 <div className="trending-article-meta">
                   <span className="meta-author">

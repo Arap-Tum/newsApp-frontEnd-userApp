@@ -10,7 +10,8 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow-light);
-  transition: transform var(--transition-smooth), box-shadow var(--transition-fast);
+  transition: transform var(--transition-smooth),
+    box-shadow var(--transition-fast);
   display: flex;
   flex-direction: column;
 }
@@ -90,27 +91,70 @@
   color: var(--primary-hover);
 }
 
+/* 🔹 Pagination Container */
+.news__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+/* 🔹 Pagination Buttons */
+.news__pagination-btn {
+  background-color: #007bff; /* primary blue */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.news__pagination-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* 🔹 Disabled Button */
+.news__pagination-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 🔹 Pagination Info Text */
+.news__pagination-info {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
 /* ===== Responsive Layout ===== */
 @media (min-width: 340px) {
   .news-page .news__grid {
-   grid-template-columns: repeat(2, 1fr) /* Mobile first */
+    grid-template-columns: repeat(2, 1fr); /* Mobile first */
   }
 }
 @media (min-width: 640px) {
   .news-page .news__grid {
-   grid-template-columns: repeat(3, 1fr) /* Mobile first */
+    grid-template-columns: repeat(3, 1fr); /* Mobile first */
   }
 }
 
 @media (min-width: 840px) {
   .news-page .news__grid {
-   grid-template-columns: repeat(3, 1fr) /* Mobile first */
+    grid-template-columns: repeat(3, 1fr); /* Mobile first */
   }
 }
 @media (min-width: 1024px) {
   .news-page .news__grid {
-    grid-template-columns: repeat(5, 1fr)
-     /* grid-template-columns: 1fr; Mobile first */
+    grid-template-columns: repeat(5, 1fr);
+    /* grid-template-columns: 1fr; Mobile first */
   }
 
   .news__header {
