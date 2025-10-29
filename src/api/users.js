@@ -83,7 +83,7 @@ export async function updateUser(id, payload, token) {
 
 /**
  * 🔹 Admin: Delete user
- * Optionally transfer their articles to another user
+ *
  */
 export async function deleteUser(id, token, transferId = null) {
   return request(`${API_URI}/users/${id}`, {

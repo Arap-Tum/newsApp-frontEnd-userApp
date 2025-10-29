@@ -42,7 +42,7 @@ export const HeroSlider = ({ articles }) => {
       {/* Slides Container */}
       <div className="slides-container">
         {articles.map((article, index) => (
-          <Link to={`/articles/${article.id}`} key={article.id}>
+          <Link to={`/articles/${article.slug}`} key={article.id}>
             <div
               className={`slide ${index === currentSlide ? "active" : ""}`}
               style={{ backgroundImage: `url(${article.imageUrl})` }}

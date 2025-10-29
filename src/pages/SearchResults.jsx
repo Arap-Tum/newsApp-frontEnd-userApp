@@ -54,19 +54,34 @@ export default function SearchResults({ allArticles }) {
           {paginatedResults.map((article) => (
             <Link
               key={article.id}
-              to={`/articles/${encodeURIComponent(article.id)}`}
+              to={`/articles/${encodeURIComponent(article.slug || article.id)}`}
               className="result-card"
             >
               <img
-                src={article.image || article.urlToImg}
+                src={article.imageUrl || "/placeholder.jpg"}
                 alt={article.title}
                 className="result-img"
               />
               <div className="result-content">
                 <h3>{highlightMatch(article.title)}</h3>
-                <p>{highlightMatch(article.content?.slice(0, 150) || "")}...</p>
-                {article.author?.name && (
-                  <span className="author">By {article.author.name}</span>
+
+                <p>
+                  {highlightMatch(
+                    article.excerpt || article.content?.slice(0, 150) || ""
+                  )}
+                  ...
+                </p>
+
+                {/* Author or Source */}
+                {(article.author?.name || article.sourceName) && (
+                  <span className="author">
+                    By {article.author?.name || article.sourceName}
+                  </span>
+                )}
+
+                {/* Optional category */}
+                {article.category?.name && (
+                  <span className="category">{article.category.name}</span>
                 )}
               </div>
             </Link>

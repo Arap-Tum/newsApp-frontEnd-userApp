@@ -5,6 +5,7 @@ import { login as loginUser } from "../../api/auth";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 
+import "../../styles/loagin&register.css";
 export const Login = () => {
   const [form, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();

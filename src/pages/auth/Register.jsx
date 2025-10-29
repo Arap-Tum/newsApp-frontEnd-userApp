@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { register as registerUser } from "../../api/auth";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
+import "../../styles/loagin&register.css";
 
 export const Register = () => {
   const [form, setFormData] = useState({ email: "", password: "" });

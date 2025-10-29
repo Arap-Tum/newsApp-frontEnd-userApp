@@ -6,7 +6,7 @@ import { Home } from "./pages/Home";
 import { ArticlePage } from "./pages/ArticlePage";
 import SearchResults from "./pages/SearchResults";
 
-import { useArticles } from "./hooks/useArticles";
+// import { useArticles } from "./hooks/useArticles";
 import { useCategories } from "./hooks/useCategory";
 import { useGlobalNews } from "./hooks/useGlobalNews";
 import { useScrapped } from "./hooks/useScrapedArticles";
@@ -15,9 +15,9 @@ import { useScrapped } from "./hooks/useScrapedArticles";
 import { Loading } from "./components/Loading";
 
 import {
-  normalizeApiArticle,
-  normalizeDbArticle,
-  normalizeScrapedNews,
+  normalizeLocalArticle,
+  normalizeNewsApiArticle,
+  normalizeScrapedArticle,
 } from "./utils/normalizeArticles";
 
 import { GlobalNews } from "./pages/GlobalNews";
@@ -52,23 +52,38 @@ import { AdminNotFound } from "./pages/admin/AdminNotFound";
 import AuthorLayout from "./pages/author/AuthorLayout";
 import { AuthorDashboard } from "./pages/author/AuthorDashboard";
 
+import { useVerifiedArticles } from "./hooks/useArticleService";
+import { useEffect } from "react";
+
 function App() {
-  const { articles, loading: articlesLoading } = useArticles();
+  const { data: articles = [], isLoading: articlesLoading } =
+    useVerifiedArticles();
+  useEffect(() => {
+    if (articles) {
+      console.log("✅ Verified articles after fetch:", articles);
+    }
+  }, [articles]);
+
+  console.log("🟡 Articles (first render):", articles);
+
   const { categories, loading: categoriesLoading } = useCategories();
   const { news: globalNews, loading: globalLoading } = useGlobalNews();
   const { articles: scrapedArticles, loading: scrapedLoading } = useScrapped();
   // const { news: externalNews, loading: externalLoading } = useExternalNews();
 
+  console.log("Verified articles", articles);
   const loading =
     articlesLoading || categoriesLoading || globalLoading || scrapedLoading;
 
   // Normalize
   /*Make it have a common element */
-  const localArticles = articles.map(normalizeDbArticle);
-  const politicsArticles = globalNews?.politics?.map(normalizeApiArticle) || [];
+
+  const localArticles = articles.map(normalizeLocalArticle);
+  const politicsArticles =
+    globalNews?.politics?.map(normalizeNewsApiArticle) || [];
 
   //addition
-  const kenyanNews = scrapedArticles.map(normalizeScrapedNews);
+  const kenyanNews = scrapedArticles.map(normalizeScrapedArticle);
 
   const allArticles = [...localArticles, ...politicsArticles, ...kenyanNews];
 
@@ -97,8 +112,9 @@ function App() {
             path="/search"
             element={<SearchResults allArticles={allArticles} />}
           />
+
           <Route
-            path="/articles/:id"
+            path="/articles/:slug"
             element={<ArticlePage articles={allArticles} />}
           />
           <Route path="/local" element={<Local articles={kenyanNews} />} />

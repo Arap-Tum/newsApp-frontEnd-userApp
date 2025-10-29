@@ -22,7 +22,7 @@ const handleApiResponse = async (response, defaultErrorMessage) => {
     throw new Error(data?.error || data?.message || defaultErrorMessage);
   }
 
-  return data;
+  return data || [];
 };
 
 const handleApiError = (error, fallbackMessage) => {
@@ -30,6 +30,8 @@ const handleApiError = (error, fallbackMessage) => {
   if (error instanceof Error && error.message) throw error;
   throw new Error(fallbackMessage);
 };
+
+
 
 // ========================
 // 🔹 CREATE ARTICLE
@@ -97,6 +99,22 @@ export async function fetchArticles(token) {
 }
 
 // ========================
+// 🔹 FETCH MY ARTICLES
+// ========================
+
+export async function getMyArticles(token) {
+  try {
+    const response = await fetch(`${API_URI}/articles/my-articles`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await handleApiResponse(response, "Failed to fetch My Articles");
+  } catch (error) {
+    handleApiError(error, "Error fetching My  articles.");
+  }
+}
+// ========================
 // 🔹 FETCH SINGLE ARTICLE BY ID
 // ========================
 export async function fetchArticleById(id, token) {
@@ -108,5 +126,55 @@ export async function fetchArticleById(id, token) {
     return await handleApiResponse(response, "Failed to fetch article details");
   } catch (error) {
     handleApiError(error, "Error fetching article details.");
+  }
+}
+
+// ========================
+// 🔹 verigy SINGLE ARTICLE BY ID
+// ========================
+
+// api/articles.js
+export async function verifyArticle(id, verificationStatus, token) {
+  try {
+    const res = await fetch(`${API_URI}/articles/verify/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ verificationStatus }),
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.error || "Failed to verify article");
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error("❌ Verify Article Error:", err);
+    throw err;
+  }
+}
+
+
+export async function fetchVerifiedArticles() {
+  try {
+    console.log("📡 Fetching verified articles...");
+    const response = await fetch(`${API_URI}/articles/verified`);
+    console.log("🔍 Raw response:", response);
+
+    const data = await handleApiResponse(response, "Failed to fetch articles");
+
+    console.log("✅ Verified articles fetched successfully:", data);
+
+    return data || [];
+  } catch (error) {
+    try {
+      handleApiError(error, "Error fetching articles.");
+    } catch (err) {
+      console.error("💥 Final caught error:", err);
+    }
+    return []; // ✅ This now executes even when handleApiError rethrows
   }
 }

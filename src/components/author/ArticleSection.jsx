@@ -1,33 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/ArticlesSection.css";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { verifyArticle } from "../../api/articles";
-import { useAuth } from "../../context/AuthConttext";
-import { toast } from "react-toastify";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import { verifyArticle } from "../../api/articles";
+// import { useAuth } from "../../context/AuthConttext";
+// import { toast } from "react-toastify";
 
 export const ArticlesSection = ({ articles = [] }) => {
-  const { token } = useAuth();
-  const queryClient = useQueryClient();
-
-  // ─── VERIFY MUTATION ────────────────────────────
-  const verifyMutation = useMutation({
-    mutationFn: ({ id, status }) => verifyArticle(id, status, token),
-    onSuccess: (data, variables) => {
-      toast.success(`Article ${variables.status.toLowerCase()} successfully`);
-      queryClient.invalidateQueries(["articles"]);
-      // console.log("verified ", data);
-    },
-    onError: (error) => {
-      toast.error("❌ Error verifying:", error.message);
-    },
-  });
-
-  // ─── HANDLER ─────────────────────────────────────
-  const handleVerify = (id, status) => {
-    verifyMutation.mutate({ id, status });
-  };
-
   // Helper function to format dates nicely
   const formatDate = (dateString) => {
     if (!dateString) return "—";
@@ -130,7 +109,7 @@ export const ArticlesSection = ({ articles = [] }) => {
                         Edit
                       </Link>
 
-                      {/* VERIFY BUTTONS */}
+                      {/* VERIFY BUTTONS
                       <div className="verify-buttons">
                         <button
                           onClick={() => handleVerify(article.id, "APPROVED")}
@@ -153,7 +132,7 @@ export const ArticlesSection = ({ articles = [] }) => {
                         >
                           Pending
                         </button>
-                      </div>
+                      </div> */}
                       <button
                         className="action-btn delete-btn"
                         onClick={() =>
