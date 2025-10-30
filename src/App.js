@@ -7,7 +7,6 @@ import SearchResults from "./pages/SearchResults";
 
 // import { useArticles } from "./hooks/useArticles";
 import { useCategories } from "./hooks/useCategory";
-import { useGlobalNews } from "./hooks/useGlobalNews";
 import { useScrapped } from "./hooks/useScrapedArticles";
 // import { useExternalNews } from "./hooks/useExternalNews";
 
@@ -48,16 +47,19 @@ import { AuthorDashboard } from "./pages/author/AuthorDashboard";
 import { useVerifiedArticles } from "./hooks/useArticleService";
 import { CategoryPage } from "./pages/CategoryPage";
 import { CountyPage } from "./pages/CountyPage";
+import { useGlobalArticles } from "./hooks/useGlobalArticles";
 
 function App() {
   const { data: articles = [], isLoading: articlesLoading } =
     useVerifiedArticles();
 
   const { categories, loading: categoriesLoading } = useCategories();
-  const { news: globalNews, loading: globalLoading } = useGlobalNews();
   const { articles: scrapedArticles, loading: scrapedLoading } = useScrapped();
-  // const { news: externalNews, loading: externalLoading } = useExternalNews();
 
+  const { data: globalNews = [], isLoading: globalLoading } =
+    useGlobalArticles();
+
+  // console.log("🗞️ Global News:", globalNews);
   const loading =
     articlesLoading || categoriesLoading || globalLoading || scrapedLoading;
 
@@ -66,8 +68,7 @@ function App() {
 
   const localArticles = articles.map(normalizeLocalArticle);
 
-  const newsApiArticles =
-    globalNews?.politics?.map(normalizeNewsApiArticle) || [];
+  const newsApiArticles = globalNews?.map(normalizeNewsApiArticle) || [];
 
   const scrapedNews = scrapedArticles.map(normalizeScrapedArticle);
 

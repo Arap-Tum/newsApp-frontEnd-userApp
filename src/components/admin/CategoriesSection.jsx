@@ -1,57 +1,136 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "../../styles/CategoriesSection.css";
-import { createArticleCategory } from "../../api/categoriesAPI";
+import {
+  createArticleCategory,
+  updateArticleCategory,
+  deleteArticleCategory,
+} from "../../api/categoriesAPI";
 import { toast } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../context/AuthConttext";
+import { useState } from "react";
+
 export const CategoriesSection = ({ categories = [] }) => {
   const [form, setFormData] = useState({ name: "" });
-
+  const [editingCategory, setEditingCategory] = useState(null); // Track category being edited
   const { token } = useAuth();
+  const queryClient = useQueryClient();
 
+  // ─── CREATE CATEGORY ───────────────────────────────
   const createCategory = useMutation({
-    mutationFn: async (category) => {
-      return await createArticleCategory(category, token);
-    },
+    mutationFn: async (category) =>
+      await createArticleCategory(category, token),
     onSuccess: (data) => {
-      console.log("Category created : ", data);
-      toast.success(`Category created `);
+      toast.success("Category created successfully!");
+      setFormData({ name: "" });
+      queryClient.invalidateQueries(["categories"]);
     },
     onError: (error) => {
-      const message =
-        error?.message || "Something went wrong while creating the product";
-      toast.error(message);
+      toast.error(error?.message || "Error creating category.");
       console.error("❌ Error creating category:", error);
     },
   });
+
+  // ─── UPDATE CATEGORY ───────────────────────────────
+  const updateCategory = useMutation({
+    mutationFn: async ({ id, data }) =>
+      await updateArticleCategory(id, data, token),
+    onSuccess: (data) => {
+      toast.success("Category updated successfully!");
+      setEditingCategory(null);
+      setFormData({ name: "" });
+      queryClient.invalidateQueries(["categories"]);
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Error updating category.");
+      console.error("❌ Error updating category:", error);
+    },
+  });
+
+  // ─── DELETE CATEGORY ───────────────────────────────
+  const deleteCategory = useMutation({
+    mutationFn: async (id) => await deleteArticleCategory(id, token),
+    onSuccess: (data) => {
+      toast.success("Category deleted successfully!");
+      queryClient.invalidateQueries(["categories"]);
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Error deleting category.");
+      console.error("❌ Error deleting category:", error);
+    },
+  });
+
+  // ─── HANDLERS ─────────────────────────────────────
   const handleChange = (e) => {
     setFormData({ ...form, [e.target.name]: e.target.value });
   };
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    createCategory.mutate({ name: form.name });
+    if (!form.name.trim()) {
+      toast.error("Category name cannot be empty.");
+      return;
+    }
+
+    if (editingCategory) {
+      updateCategory.mutate({
+        id: editingCategory.id,
+        data: { name: form.name },
+      });
+    } else {
+      createCategory.mutate({ name: form.name });
+    }
   };
 
+  const handleEdit = (category) => {
+    setEditingCategory(category);
+    setFormData({ name: category.name });
+  };
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
+      deleteCategory.mutate(id);
+    }
+  };
+
+  // ─── RENDER ───────────────────────────────────────
   return (
     <div className="categories-section">
       {/* ─── Section Header ─────────────────────────────── */}
       <div className="section-header">
         <h2 className="section-title">Categories</h2>
+
         <input
           style={{ margin: 10, padding: 6, borderRadius: 10 }}
           name="name"
           className="input"
-          placeholder="add new category"
+          placeholder={
+            editingCategory ? "Edit category name..." : "Add new category"
+          }
           type="text"
           value={form.name}
           onChange={handleChange}
         />
-        {/* <Link to="/admin/categories/new" className="add-category-link"> */}
-        <button className="add-category-btn" onClick={handleSubmit}>
-          + Add Category
+
+        <button
+          className={`add-category-btn ${
+            editingCategory ? "update-btn" : "create-btn"
+          }`}
+          onClick={handleSubmit}
+        >
+          {editingCategory ? "✅ Update Category" : "+ Add Category"}
         </button>
-        {/* </Link> */}
+
+        {editingCategory && (
+          <button
+            className="cancel-edit-btn"
+            onClick={() => {
+              setEditingCategory(null);
+              setFormData({ name: "" });
+            }}
+          >
+            Cancel
+          </button>
+        )}
       </div>
 
       {/* ─── Table Container ─────────────────────────────── */}
@@ -71,48 +150,29 @@ export const CategoriesSection = ({ categories = [] }) => {
             {categories.length > 0 ? (
               categories.map((category) => (
                 <tr className="table-row" key={category.id}>
-                  {/* ─── Name Cell ───────────────────────────── */}
                   <td className="table-cell name-cell">
                     <span className="category-name">{category.name}</span>
                   </td>
-
-                  {/* ─── Slug Cell ───────────────────────────── */}
                   <td className="table-cell slug-cell">
                     <code className="category-slug">{category.slug}</code>
                   </td>
-
-                  {/* ─── Articles Count Cell ─────────────────── */}
                   <td className="table-cell count-cell">
                     {category.articlesCount ?? 0}
                   </td>
-
-                  {/* ─── Created Date Cell ───────────────────── */}
                   <td className="table-cell date-cell">
                     {new Date(category.createdAt).toLocaleDateString()}
                   </td>
-
-                  {/* ─── Actions Cell ────────────────────────── */}
                   <td className="table-cell actions-cell">
                     <div className="actions">
-                      {/* <Link
-                        to={`/admin/categories/${category.id}`}
-                        className="action-btn view-btn"
-                      >
-                        View
-                      </Link> */}
-                      <Link
-                        to={`/admin/categories/edit/${category.id}`}
+                      <button
                         className="action-btn edit-btn"
+                        onClick={() => handleEdit(category)}
                       >
                         Edit
-                      </Link>
+                      </button>
                       <button
                         className="action-btn delete-btn"
-                        onClick={() =>
-                          window.confirm(
-                            `Are you sure you want to delete "${category.name}"?`
-                          ) && console.log("Delete", category.id)
-                        }
+                        onClick={() => handleDelete(category.id, category.name)}
                       >
                         Delete
                       </button>

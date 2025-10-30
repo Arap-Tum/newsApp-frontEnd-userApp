@@ -1,10 +1,25 @@
 import axios from "./api";
-
+import { API_URI } from "./localApi";
 //GET SCRAPED NEWS
 export const getScrappedArticles = () => axios.get("/scraped");
 
 //GET API NEWS
-export const getExternalPolitics = () => axios.get("/services/politics");
-export const getKenyanNews = () => axios.get("/services/kenya");
-export const getExternalWorldPolitics = () =>
-  axios.get("/services/wordPolitics");
+export async function getGlobalNews() {
+  try {
+    const response = await fetch(`${API_URI}/news`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch news");
+    }
+    const data = await response.json();
+    console.log("📰 News data from backend:", data);
+
+    // ✅ Access .articles since backend wraps it in { articles: [...] }
+    const articles = data.articles || [];
+
+    return articles;
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    return [];
+  }
+}

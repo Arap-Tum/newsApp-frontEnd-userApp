@@ -1,47 +1,115 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "../../styles/CountiesSection.css";
-import { useAuth } from "../../context/AuthConttext";
-import { useMutation } from "@tanstack/react-query";
-import { createCounty } from "../../api/counties";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthConttext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createCounty, updateCounty, deleteCounty } from "../../api/counties";
+import "../../styles/CountiesSection.css";
+
 export const CountiesSection = ({ counties = [] }) => {
   const [form, setFormData] = useState({ name: "", region: "" });
+  const [editingCounty, setEditingCounty] = useState(null); // track the county being edited
   const { token } = useAuth();
+  const queryClient = useQueryClient();
 
-  const createcounty = useMutation({
-    mutationFn: async (county) => {
-      return await createCounty(county, token);
-    },
+  // ─── CREATE ───────────────────────────────
+  const createCountyMutation = useMutation({
+    mutationFn: async (county) => await createCounty(county, token),
     onSuccess: (data) => {
-      console.log("county created : ", data);
-      toast.success(`county created `);
+      toast.success("County created successfully!");
+      setFormData({ name: "", region: "" });
+      queryClient.invalidateQueries(["counties"]);
     },
     onError: (error) => {
-      const message =
-        error?.message || "Something went wrong while creating the article";
-      toast.error(message);
+      toast.error(error?.message || "Error creating county.");
       console.error("❌ Error creating county:", error);
     },
   });
+
+  // ─── UPDATE ───────────────────────────────
+  const updateCountyMutation = useMutation({
+    mutationFn: async ({ id, data }) => await updateCounty(id, data, token),
+    onSuccess: (data) => {
+      toast.success("County updated successfully!");
+      setEditingCounty(null);
+      setFormData({ name: "", region: "" });
+      queryClient.invalidateQueries(["counties"]);
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Error updating county.");
+      console.error("❌ Error updating county:", error);
+    },
+  });
+
+  // ─── DELETE ───────────────────────────────
+  const deleteCountyMutation = useMutation({
+    mutationFn: async (id) => await deleteCounty(id, token),
+    onSuccess: (data) => {
+      toast.success("County deleted successfully!");
+      queryClient.invalidateQueries(["counties"]);
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Error deleting county.");
+      console.error("❌ Error deleting county:", error);
+    },
+  });
+
+  // ─── HANDLERS ─────────────────────────────
   const handleChange = (e) => {
     setFormData({ ...form, [e.target.name]: e.target.value });
   };
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    createcounty.mutate({ name: form.name, region: form.region });
+
+    if (!form.name.trim()) {
+      toast.error("County name cannot be empty.");
+      return;
+    }
+
+    if (editingCounty) {
+      // update mode
+      updateCountyMutation.mutate({
+        id: editingCounty.id,
+        data: { name: form.name, region: form.region },
+      });
+    } else {
+      // create mode
+      createCountyMutation.mutate({ name: form.name, region: form.region });
+    }
   };
 
+  const handleEdit = (county) => {
+    setEditingCounty(county);
+    setFormData({ name: county.name, region: county.region || "" });
+  };
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
+      deleteCountyMutation.mutate(id);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCounty(null);
+    setFormData({ name: "", region: "" });
+  };
+
+  // ─── RENDER ─────────────────────────────
   return (
     <div className="counties-section">
       {/* ─── Header ─────────────────────────────── */}
       <div className="section-header">
         <h2 className="section-title">Counties</h2>
-        <div style={{ display: "flex" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
           <input
             style={{ margin: 10, padding: 6, borderRadius: 10 }}
             name="name"
-            placeholder="add new county"
+            placeholder={
+              editingCounty ? "Edit county name..." : "Add new county"
+            }
             type="text"
             value={form.name}
             onChange={handleChange}
@@ -49,17 +117,29 @@ export const CountiesSection = ({ counties = [] }) => {
           <input
             style={{ margin: 10, padding: 6, borderRadius: 10 }}
             name="region"
-            placeholder="region "
+            placeholder={editingCounty ? "Edit region..." : "Region (optional)"}
             type="text"
             value={form.region}
             onChange={handleChange}
           />
-        </div>
-        {/* <Link to="/admin/counties/new" className="add-county-link"> */}
-        <button className="add-county-btn" onClick={handleSubmit}>
-          + Add County
-        </button>
-        {/* </Link> */}
+          <button
+            type="submit"
+            className={`add-county-btn ${
+              editingCounty ? "update-btn" : "create-btn"
+            }`}
+          >
+            {editingCounty ? "✅ Update County" : "+ Add County"}
+          </button>
+          {editingCounty && (
+            <button
+              type="button"
+              className="cancel-edit-btn"
+              onClick={handleCancelEdit}
+            >
+              Cancel
+            </button>
+          )}
+        </form>
       </div>
 
       {/* ─── Table ─────────────────────────────── */}
@@ -79,46 +159,27 @@ export const CountiesSection = ({ counties = [] }) => {
             {counties.length > 0 ? (
               counties.map((county, index) => (
                 <tr className="table-row" key={county.id}>
-                  {/* ─── Index ───────────────────────────── */}
                   <td className="table-cell index-cell">{index + 1}</td>
-
-                  {/* ─── Name ───────────────────────────── */}
                   <td className="table-cell name-cell">
                     <span className="county-name">{county.name}</span>
                   </td>
-
-                  {/* ─── Region ─────────────────────────── */}
                   <td className="table-cell region-cell">
                     {county.region || "—"}
                   </td>
-
-                  {/* ─── Articles Count ─────────────────── */}
                   <td className="table-cell count-cell">
                     {county.articlesCount ?? 0}
                   </td>
-
-                  {/* ─── Actions ────────────────────────── */}
                   <td className="table-cell actions-cell">
                     <div className="actions">
-                      {/* <Link
-                        to={`/admin/counties/${county.id}`}
-                        className="action-btn view-btn"
-                      >
-                        View
-                      </Link> */}
-                      <Link
-                        to={`/admin/counties/edit/${county.id}`}
+                      <button
                         className="action-btn edit-btn"
+                        onClick={() => handleEdit(county)}
                       >
                         Edit
-                      </Link>
+                      </button>
                       <button
                         className="action-btn delete-btn"
-                        onClick={() =>
-                          window.confirm(
-                            `Are you sure you want to delete "${county.name}"?`
-                          ) && console.log("Delete", county.id)
-                        }
+                        onClick={() => handleDelete(county.id, county.name)}
                       >
                         Delete
                       </button>
